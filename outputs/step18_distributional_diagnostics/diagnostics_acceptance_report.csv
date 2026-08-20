@@ -1,0 +1,9 @@
+check,passed,detail
+expected_summary_row_count,True,"actual=72, expected=72"
+success_counts_reconcile,True,
+success_rates_between_zero_and_one,True,
+no_summary_numeric_infinities,True,
+no_success_metrics_are_missing,True,
+successful_metrics_are_finite,True,
+conditional_classical_ceded_results_are_labelled,True,rows_checked=18
+expected_boxplot_count,True,"actual=36, expected=36"

@@ -1,0 +1,9 @@
+scenario_id,tail_type,inflation_scenario,structural_break,clause_type,model,basis,attempts,successes,failures,success_rate,mean_runtime_seconds,mean_signed_error,mean_absolute_error,root_mean_squared_error,mean_percentage_error,mean_absolute_percentage_error,median_absolute_percentage_error,mean_normalised_error
+long_stable_no_break,long,stable,False,none,cashflow_uplift,ceded,1,0,1,0.0,0.01827580100052728,,,,,,,
+long_stable_no_break,long,stable,False,none,cashflow_uplift,gross,1,1,0,1.0,0.09569659499993577,-42420062.802197576,42420062.802197576,42420062.802197576,-5.628257274877475,5.628257274877475,5.628257274877475,-0.056282572748774747
+long_stable_no_break,long,stable,False,none,chain_ladder,ceded,1,0,1,0.0,0.01381627800037677,,,,,,,
+long_stable_no_break,long,stable,False,none,chain_ladder,gross,1,1,0,1.0,0.053332460000092397,-42420062.802197576,42420062.802197576,42420062.802197576,-5.628257274877475,5.628257274877475,5.628257274877475,-0.056282572748774747
+long_stable_no_break,long,stable,False,none,inflation_adjusted_chain_ladder,ceded,1,0,1,0.0,0.05642176500077767,,,,,,,
+long_stable_no_break,long,stable,False,none,inflation_adjusted_chain_ladder,gross,1,1,0,1.0,0.12390083800073626,-44044997.35461688,44044997.35461688,44044997.35461688,-5.843852187089155,5.843852187089155,5.843852187089155,-0.05843852187089155
+long_stable_no_break,long,stable,False,none,regularized_poisson,ceded,1,1,0,1.0,2.1158422710004743,118755834.190682,118755834.190682,118755834.190682,39.34291322418602,39.34291322418602,39.34291322418602,0.3934291322418602
+long_stable_no_break,long,stable,False,none,regularized_poisson,gross,1,1,0,1.0,2.3606078579996392,-54446894.17180538,54446894.17180538,54446894.17180538,-7.223966867891399,7.223966867891399,7.223966867891399,-0.07223966867891399

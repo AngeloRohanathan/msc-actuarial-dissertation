@@ -1,0 +1,10 @@
+Step 16 baseline snapshot
+
+Created:
+2026-08-03T21:42:29+0100
+
+Source folder:
+data/pilot/experiments/pilot_50
+
+Frozen destination:
+data/final/baseline_step16

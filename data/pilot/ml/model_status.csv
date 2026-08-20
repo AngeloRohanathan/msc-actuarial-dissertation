@@ -1,0 +1,3 @@
+model,basis,model_status,failure_reason
+regularized_poisson,gross,success,
+regularized_poisson,ceded,success,

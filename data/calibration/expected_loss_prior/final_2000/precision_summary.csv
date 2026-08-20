@@ -1,0 +1,10 @@
+scenario_id,maximum_gross_relative_mcse,maximum_ceded_relative_mcse,gross_mcse_target,ceded_mcse_target,gross_target_met,ceded_target_met
+long_emerging_break,0.006877750500917566,0.009063868584506791,0.02,0.05,True,True
+long_emerging_no_break,0.006877750500917569,0.009063868584506791,0.02,0.05,True,True
+long_shock_break,0.006831671281323792,0.00906031030621589,0.02,0.05,True,True
+long_shock_no_break,0.006847250581120357,0.00906031030621589,0.02,0.05,True,True
+long_stable_break,0.006943446548640281,0.009077169859308584,0.02,0.05,True,True
+long_stable_no_break,0.006943446548640279,0.009077169859308584,0.02,0.05,True,True
+short_emerging_no_break,0.007032523539607007,0.011055132181515423,0.02,0.05,True,True
+short_shock_no_break,0.006998488692878973,0.011055132181515423,0.02,0.05,True,True
+short_stable_no_break,0.007048343747088387,0.011055132181515423,0.02,0.05,True,True

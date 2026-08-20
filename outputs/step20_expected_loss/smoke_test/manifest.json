@@ -1,0 +1,17 @@
+{
+  "created_at": "2026-08-13T13:49:35.242024-05:00",
+  "method": "expected_loss",
+  "prior_source": "data/calibration/expected_loss_prior/final_2000/expected_loss_prior.csv",
+  "baseline_source": "data/final/baseline_step16/results.csv",
+  "valuation_year": 2024,
+  "simulations_per_scenario": 2,
+  "number_of_scenarios": 1,
+  "expected_loss_result_rows": 4,
+  "accident_year_detail_rows": 60,
+  "estimator_inputs": [
+    "independent Step 19 expected-loss prior",
+    "payments observed up to the valuation year"
+  ],
+  "oracle_inputs_to_estimator": [],
+  "true_future_payments_used_for": "evaluation_only_after_estimation"
+}

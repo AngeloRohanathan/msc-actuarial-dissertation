@@ -1,0 +1,7 @@
+model,basis,model_status,failure_reason,estimated_reserve
+chain_ladder,gross,success,,648792994.2846818
+chain_ladder,ceded,failed,The Chain Ladder denominator is zero for development 1 to 2.,
+inflation_adjusted_chain_ladder,gross,success,,649090160.0716043
+inflation_adjusted_chain_ladder,ceded,failed,The Chain Ladder denominator is zero for development 1 to 2.,
+cashflow_uplift,gross,success,,648792994.2846818
+cashflow_uplift,ceded,failed,The Chain Ladder denominator is zero for development 1 to 2.,

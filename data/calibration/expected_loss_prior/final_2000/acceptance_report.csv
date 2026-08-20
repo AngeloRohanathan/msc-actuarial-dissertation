@@ -1,0 +1,13 @@
+check,passed,detail
+expected_calibration_record_count,True,"actual=270000, expected=270000"
+expected_prior_row_count,True,"actual=135, expected=135"
+calibration_keys_are_unique,True,
+prior_keys_are_unique,True,
+calibration_amounts_are_finite,True,
+calibration_amounts_are_nonnegative,True,
+calibration_reinsurance_reconciles,True,
+calibration_counts_are_correct,True,
+calibration_and_evaluation_seeds_are_disjoint,True,
+prior_values_are_finite,True,
+prior_values_are_nonnegative,True,
+prior_reinsurance_reconciles,True,

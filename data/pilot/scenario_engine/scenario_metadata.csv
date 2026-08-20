@@ -1,0 +1,10 @@
+scenario_id,simulation_id,seed,tail_type,frequency_scenario,inflation_scenario,structural_break,structural_break_year,pareto_scale,pareto_shape,claim_count
+short_stable_no_break,1,27072002,short,constant,stable,False,2018,1000000.0,2.5,698
+short_emerging_no_break,1,27072002,short,constant,emerging,False,2018,1000000.0,2.5,698
+short_shock_no_break,1,27072002,short,constant,shock,False,2018,1000000.0,2.5,698
+long_stable_no_break,1,27072002,long,constant,stable,False,2018,1000000.0,2.5,698
+long_emerging_no_break,1,27072002,long,constant,emerging,False,2018,1000000.0,2.5,698
+long_shock_no_break,1,27072002,long,constant,shock,False,2018,1000000.0,2.5,698
+long_stable_break,1,27072002,long,constant,stable,True,2018,1000000.0,2.5,698
+long_emerging_break,1,27072002,long,constant,emerging,True,2018,1000000.0,2.5,698
+long_shock_break,1,27072002,long,constant,shock,True,2018,1000000.0,2.5,698

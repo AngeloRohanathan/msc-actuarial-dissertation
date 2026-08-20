@@ -1,0 +1,4 @@
+scenario_id,model,basis,failure_category,failure_reason,failure_count
+long_stable_no_break,cashflow_uplift,ceded,known_sparse_ceded_chain_ladder_limitation,ValueError: The Chain Ladder denominator is zero for development 1 to 2.,1
+long_stable_no_break,chain_ladder,ceded,known_sparse_ceded_chain_ladder_limitation,ValueError: The Chain Ladder denominator is zero for development 1 to 2.,1
+long_stable_no_break,inflation_adjusted_chain_ladder,ceded,known_sparse_ceded_chain_ladder_limitation,ValueError: The Chain Ladder denominator is zero for development 1 to 2.,1

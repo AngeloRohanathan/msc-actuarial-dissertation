@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# macOS
+.DS_Store
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+
+# Generated duplicate source snapshot
+data/final/baseline_step16/code_snapshot/
+
+# Large Monte Carlo calibration records
+data/calibration/expected_loss_prior/*/calibration_records.csv
+data/calibration/expected_loss_prior/*/calibration_records_checkpoint.csv
+
+# Temporary / reproducibility calibration runs
+data/calibration/expected_loss_prior/smoke_test/
+data/calibration/expected_loss_prior/reproducibility_a/
+data/calibration/expected_loss_prior/reproducibility_b/
+
+# Temporary Python files
+*.tmp

@@ -1,0 +1,19 @@
+scenario_id,model,basis,failure_category,failure_reason,failure_count
+long_emerging_break,cashflow_uplift,ceded,known_sparse_ceded_chain_ladder_limitation,ValueError: The Chain Ladder denominator is zero for development 1 to 2.,43
+long_emerging_break,chain_ladder,ceded,known_sparse_ceded_chain_ladder_limitation,ValueError: The Chain Ladder denominator is zero for development 1 to 2.,43
+long_emerging_break,inflation_adjusted_chain_ladder,ceded,known_sparse_ceded_chain_ladder_limitation,ValueError: The Chain Ladder denominator is zero for development 1 to 2.,43
+long_emerging_no_break,cashflow_uplift,ceded,known_sparse_ceded_chain_ladder_limitation,ValueError: The Chain Ladder denominator is zero for development 1 to 2.,50
+long_emerging_no_break,chain_ladder,ceded,known_sparse_ceded_chain_ladder_limitation,ValueError: The Chain Ladder denominator is zero for development 1 to 2.,50
+long_emerging_no_break,inflation_adjusted_chain_ladder,ceded,known_sparse_ceded_chain_ladder_limitation,ValueError: The Chain Ladder denominator is zero for development 1 to 2.,50
+long_shock_break,cashflow_uplift,ceded,known_sparse_ceded_chain_ladder_limitation,ValueError: The Chain Ladder denominator is zero for development 1 to 2.,42
+long_shock_break,chain_ladder,ceded,known_sparse_ceded_chain_ladder_limitation,ValueError: The Chain Ladder denominator is zero for development 1 to 2.,42
+long_shock_break,inflation_adjusted_chain_ladder,ceded,known_sparse_ceded_chain_ladder_limitation,ValueError: The Chain Ladder denominator is zero for development 1 to 2.,42
+long_shock_no_break,cashflow_uplift,ceded,known_sparse_ceded_chain_ladder_limitation,ValueError: The Chain Ladder denominator is zero for development 1 to 2.,50
+long_shock_no_break,chain_ladder,ceded,known_sparse_ceded_chain_ladder_limitation,ValueError: The Chain Ladder denominator is zero for development 1 to 2.,50
+long_shock_no_break,inflation_adjusted_chain_ladder,ceded,known_sparse_ceded_chain_ladder_limitation,ValueError: The Chain Ladder denominator is zero for development 1 to 2.,50
+long_stable_break,cashflow_uplift,ceded,known_sparse_ceded_chain_ladder_limitation,ValueError: The Chain Ladder denominator is zero for development 1 to 2.,43
+long_stable_break,chain_ladder,ceded,known_sparse_ceded_chain_ladder_limitation,ValueError: The Chain Ladder denominator is zero for development 1 to 2.,43
+long_stable_break,inflation_adjusted_chain_ladder,ceded,known_sparse_ceded_chain_ladder_limitation,ValueError: The Chain Ladder denominator is zero for development 1 to 2.,43
+long_stable_no_break,cashflow_uplift,ceded,known_sparse_ceded_chain_ladder_limitation,ValueError: The Chain Ladder denominator is zero for development 1 to 2.,50
+long_stable_no_break,chain_ladder,ceded,known_sparse_ceded_chain_ladder_limitation,ValueError: The Chain Ladder denominator is zero for development 1 to 2.,50
+long_stable_no_break,inflation_adjusted_chain_ladder,ceded,known_sparse_ceded_chain_ladder_limitation,ValueError: The Chain Ladder denominator is zero for development 1 to 2.,50

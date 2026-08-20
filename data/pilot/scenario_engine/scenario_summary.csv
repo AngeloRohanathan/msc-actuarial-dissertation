@@ -1,0 +1,10 @@
+scenario_id,tail_type,inflation_scenario,structural_break,claim_count,payment_count,payment_patterns,minimum_payment_year,maximum_payment_year
+short_stable_no_break,short,stable,False,698,2792,short,2010,2029
+short_emerging_no_break,short,emerging,False,698,2792,short,2010,2029
+short_shock_no_break,short,shock,False,698,2792,short,2010,2029
+long_stable_no_break,long,stable,False,698,6980,long,2010,2037
+long_emerging_no_break,long,emerging,False,698,6980,long,2010,2037
+long_shock_no_break,long,shock,False,698,6980,long,2010,2037
+long_stable_break,long,stable,True,698,6980,"accelerated_long, long",2010,2037
+long_emerging_break,long,emerging,True,698,6980,"accelerated_long, long",2010,2037
+long_shock_break,long,shock,True,698,6980,"accelerated_long, long",2010,2037

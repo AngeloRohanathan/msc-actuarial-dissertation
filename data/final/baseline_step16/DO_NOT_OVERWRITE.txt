@@ -1,0 +1,9 @@
+This folder contains the frozen Step 16 baseline experiment.
+
+Do not overwrite or regenerate files inside this folder.
+
+The folder contains both the experiment results and a copy of the
+code used to generate them.
+
+Future models and simulation sensitivities must use new output
+folders and run labels.
