@@ -404,6 +404,47 @@ END_TO_END_SCENARIOS = (
 )
 
 
+
+# ---------------------------------------------------------------------
+# Paid Bornhuetter-Ferguson assumptions
+# ---------------------------------------------------------------------
+
+BF_STRUCTURAL_BREAK_ACCIDENT_YEAR = 2018
+
+BF_BENCHMARK_INCREMENTAL_PATTERNS = {
+    "short": (
+        0.60,
+        0.25,
+        0.10,
+        0.05,
+    ),
+    "long": (
+        0.04,
+        0.20,
+        0.19,
+        0.14,
+        0.09,
+        0.07,
+        0.06,
+        0.05,
+        0.06,
+        0.10,
+    ),
+    "accelerated_long": (
+        0.08,
+        0.27,
+        0.23,
+        0.16,
+        0.10,
+        0.06,
+        0.04,
+        0.03,
+        0.02,
+        0.01,
+    ),
+}
+
+
 # ---------------------------------------------------------------------
 # Evaluation
 # ---------------------------------------------------------------------
@@ -648,6 +689,38 @@ def validate_config() -> None:
         raise ValueError(
             "The ceded relative MCSE target "
             "must be positive."
+        )
+    
+    if BF_STRUCTURAL_BREAK_ACCIDENT_YEAR < 0:
+        raise ValueError(
+            "BF_STRUCTURAL_BREAK_ACCIDENT_YEAR "
+            "must be non-negative."
+        )
+
+for pattern_name, pattern in (
+    BF_BENCHMARK_INCREMENTAL_PATTERNS.items()
+):
+    if not pattern:
+        raise ValueError(
+            f"BF pattern {pattern_name} is empty."
+        )
+
+    if any(
+        proportion < 0
+        for proportion in pattern
+    ):
+        raise ValueError(
+            f"BF pattern {pattern_name} "
+            "contains a negative proportion."
+        )
+
+    if abs(
+        sum(pattern)
+        - 1.0
+    ) > 1e-12:
+        raise ValueError(
+            f"BF pattern {pattern_name} "
+            f"does not sum to 1.0."
         )
 
     # Reserve a generous range for future evaluation simulations and

@@ -1,0 +1,7 @@
+check,passed,detail
+decomposition_reconciles,True,max_abs_residual=5.96046447754e-08
+true_paid_proportions_valid,True,
+true_unpaid_proportions_valid,True,
+both_bf_models_present,True,"['bornhuetter_ferguson_break_aware', 'bornhuetter_ferguson_standard']"
+bf_variants_use_same_truth,True,paired_rows=13500
+true_ultimates_nonnegative,True,

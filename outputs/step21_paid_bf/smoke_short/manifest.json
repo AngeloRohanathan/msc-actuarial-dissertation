@@ -1,0 +1,20 @@
+{
+  "created_at": "2026-08-20T20:10:50.440351+01:00",
+  "method": "paid_bornhuetter_ferguson",
+  "valuation_year": 2024,
+  "structural_break_accident_year": 2018,
+  "variants": [
+    "bornhuetter_ferguson_standard",
+    "bornhuetter_ferguson_break_aware"
+  ],
+  "benchmark_pattern_source": "fixed_design_assumptions",
+  "realised_future_used_for_pattern_selection": false,
+  "true_reserve_used_for": "evaluation_only_after_estimation",
+  "scenarios": [
+    "short_stable_no_break"
+  ],
+  "simulations_per_scenario": 2,
+  "detail_rows": 120,
+  "result_rows": 8,
+  "pattern_sensitivity_rows": 0
+}
