@@ -532,6 +532,33 @@ def validate_config() -> None:
             "All ML Poisson alpha values must be positive."
         )
 
+    if not ML_TWEEDIE_ALPHA_GRID:
+        raise ValueError(
+            "ML_TWEEDIE_ALPHA_GRID cannot be empty."
+        )
+
+    if any(
+        alpha <= 0.0
+        for alpha in ML_TWEEDIE_ALPHA_GRID
+    ):
+        raise ValueError(
+            "All ML Tweedie alpha values must be positive."
+        )
+
+    if not ML_TWEEDIE_POWER_GRID:
+        raise ValueError(
+            "ML_TWEEDIE_POWER_GRID cannot be empty."
+        )
+
+    if any(
+        not 1.0 < power < 2.0
+        for power in ML_TWEEDIE_POWER_GRID
+    ):
+        raise ValueError(
+            "All ML Tweedie power values must lie "
+            "strictly between 1 and 2."
+        )
+
     if ML_MIN_TRAINING_DIAGONALS < 2:
         raise ValueError(
             "ML_MIN_TRAINING_DIAGONALS must be at least 2."

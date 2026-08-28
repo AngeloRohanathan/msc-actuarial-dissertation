@@ -1,0 +1,14 @@
+check,passed,detail
+expected_row_count,True,"actual=1800, expected=1800"
+all_expected_scenarios_present,True,
+both_bases_present,True,
+both_models_present,True,
+unique_model_portfolio_rows,True,
+selected_tweedie_power_in_grid,True,
+selected_alpha_in_model_grid,True,
+poisson_selected_power_is_missing,True,
+successful_estimates_nonnegative,True,
+pipeline_reconciliations_passed,True,
+successful_reserve_reconciliations_passed,True,
+paired_models_use_same_truth,True,
+failure_reporting_complete,True,failed_rows=0

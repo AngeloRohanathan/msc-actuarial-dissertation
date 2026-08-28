@@ -491,6 +491,29 @@ def build_tweedie_pipeline(
     alpha: float,
     power: float,
 ) -> Pipeline:
+    """Create the baseline preprocessing and Tweedie pipeline."""
+
+    if not np.isfinite(alpha):
+        raise ValueError(
+            "alpha must be finite."
+        )
+
+    if alpha <= 0.0:
+        raise ValueError(
+            "alpha must be positive."
+        )
+
+    if not np.isfinite(power):
+        raise ValueError(
+            "power must be finite."
+        )
+
+    if not 1.0 < float(power) < 2.0:
+        raise ValueError(
+            "power must lie strictly between 1 and 2 "
+            "for the compound Poisson-Gamma model."
+        )
+
     preprocessor = ColumnTransformer(
         transformers=[
             (
@@ -957,26 +980,66 @@ def select_regularisation_alpha(
 def select_tweedie_hyperparameters(
     cell_dataset: pd.DataFrame,
     alpha_grid: Sequence[float],
-    power_grid,
+    power_grid: Sequence[float],
     minimum_training_diagonals: int,
     minimum_validation_folds: int,
     amount_scale: float,
 ) -> tuple[
     float,
+    float,
     pd.DataFrame,
     pd.DataFrame,
 ]:
-    """Select alpha using rolling calendar-diagonal validation."""
+    """Select Tweedie power and alpha using historical diagonal MAE."""
 
     if not alpha_grid:
         raise ValueError(
             "alpha_grid cannot be empty."
         )
 
+    if not power_grid:
+        raise ValueError(
+            "power_grid cannot be empty."
+        )
+
     if minimum_validation_folds < 1:
         raise ValueError(
             "minimum_validation_folds "
             "must be positive."
+        )
+
+    if amount_scale <= 0.0:
+        raise ValueError(
+            "amount_scale must be positive."
+        )
+
+    alpha_values = [
+        float(alpha)
+        for alpha in alpha_grid
+    ]
+
+    power_values = [
+        float(power)
+        for power in power_grid
+    ]
+
+    if any(
+        not np.isfinite(alpha)
+        or alpha <= 0.0
+        for alpha in alpha_values
+    ):
+        raise ValueError(
+            "All alpha values must be finite and positive."
+        )
+
+    if any(
+        not np.isfinite(power)
+        or not 1.0 < power < 2.0
+        for power in power_values
+    ):
+        raise ValueError(
+            "All power values must be finite and lie "
+            "strictly between 1 and 2."
         )
 
     observed_cells = (
@@ -997,18 +1060,12 @@ def select_tweedie_hyperparameters(
         dict[str, Any]
     ] = []
 
-    alpha_rows: list[
+    hyperparameter_rows: list[
         dict[str, Any]
     ] = []
 
-    for power in power_grid:
-        for alpha in alpha_grid:
-            alpha = float(alpha)
-
-            if alpha <= 0.0:
-                raise ValueError(
-                    "All alpha values must be positive."
-                )
+    for power in power_values:
+        for alpha in alpha_values:
 
             successful_scores: list[float] = []
             successful_maes: list[float] = []
@@ -1039,15 +1096,16 @@ def select_tweedie_hyperparameters(
                     "incremental_paid_scaled"
                 ].to_numpy(dtype=float)
 
-                # A Poisson model cannot be estimated when every
-                # training response is zero. This can occur in very
-                # early ceded diagonals, so those folds are skipped.
+                # A log-link Tweedie model cannot be usefully
+                # estimated when every training response is zero.
+                # This can occur in early ceded diagonals.
                 if np.isclose(
                     y_train.sum(),
                     0.0,
                 ):
                     fold_rows.append(
                         {
+                            "power": power,
                             "alpha": alpha,
                             "validation_year": (
                                 validation_year
@@ -1061,114 +1119,134 @@ def select_tweedie_hyperparameters(
                             "validation_rows": int(
                                 len(validation_data)
                             ),
-                            "mean_poisson_deviance": (
-                                np.nan
-                            ),
                             "mean_absolute_error": (
                                 np.nan
                             ),
+                            "failure_reason": "",
                         }
                     )
 
                     continue
 
-                pipeline = build_tweedie_pipeline(
-                    alpha=float(alpha),
-                    power=float(power),
-                )
-
-                pipeline.fit(
-                    training_data[
-                        MODEL_FEATURE_COLUMNS
-                    ],
-                    y_train,
-                )
-
-                prediction = pipeline.predict(
-                    validation_data[
-                        MODEL_FEATURE_COLUMNS
-                    ]
-                )
-
-                prediction = np.clip(
-                    prediction,
-                    1e-12,
-                    None,
-                )
-
-                poisson_deviance = float(
-                    mean_poisson_deviance(
-                        y_validation,
-                        prediction,
+                try:
+                    pipeline = build_tweedie_pipeline(
+                        alpha=alpha,
+                        power=power,
                     )
-                )
 
-                mae_scaled = float(
-                    mean_absolute_error(
-                        y_validation,
-                        prediction,
+                    pipeline.fit(
+                        training_data[
+                            MODEL_FEATURE_COLUMNS
+                        ],
+                        y_train,
                     )
-                )
 
-                mae_original = (
-                    mae_scaled
-                    * float(amount_scale)
-                )
+                    prediction = pipeline.predict(
+                        validation_data[
+                            MODEL_FEATURE_COLUMNS
+                        ]
+                    )
 
-                successful_scores.append(
-                    poisson_deviance
-                )
+                    if not np.isfinite(
+                        prediction
+                    ).all():
+                        raise ValueError(
+                            "Validation predictions are not finite."
+                        )
 
-                successful_maes.append(
-                    mae_original
-                )
+                    if (
+                        prediction < -1e-12
+                    ).any():
+                        raise ValueError(
+                            "Validation predictions are negative."
+                        )
 
-                fold_rows.append(
-                    {
-                        "alpha": alpha,
-                        "validation_year": (
-                            validation_year
-                        ),
-                        "fold_status": "success",
-                        "training_rows": int(
-                            len(training_data)
-                        ),
-                        "validation_rows": int(
-                            len(validation_data)
-                        ),
-                        "mean_poisson_deviance": (
-                            poisson_deviance
-                        ),
-                        "mean_absolute_error": (
-                            mae_original
-                        ),
-                    }
-                )
+                    prediction = np.clip(
+                        prediction,
+                        0.0,
+                        None,
+                    )
+
+                    mae_scaled = float(
+                        mean_absolute_error(
+                            y_validation,
+                            prediction,
+                        )
+                    )
+
+                    mae_original = (
+                        mae_scaled
+                        * float(amount_scale)
+                    )
+
+                    successful_scores.append(
+                        mae_original
+                    )
+
+                    successful_maes.append(
+                        mae_original
+                    )
+
+                    fold_rows.append(
+                        {
+                            "power": power,
+                            "alpha": alpha,
+                            "validation_year": (
+                                validation_year
+                            ),
+                            "fold_status": "success",
+                            "training_rows": int(
+                                len(training_data)
+                            ),
+                            "validation_rows": int(
+                                len(validation_data)
+                            ),
+                            "mean_absolute_error": (
+                                mae_original
+                            ),
+                            "failure_reason": "",
+                        }
+                    )
+
+                except Exception as error:
+                    fold_rows.append(
+                        {
+                            "power": power,
+                            "alpha": alpha,
+                            "validation_year": (
+                                validation_year
+                            ),
+                            "fold_status": "failed",
+                            "training_rows": int(
+                                len(training_data)
+                            ),
+                            "validation_rows": int(
+                                len(validation_data)
+                            ),
+                            "mean_absolute_error": np.nan,
+                            "failure_reason": (
+                                f"{type(error).__name__}: {error}"
+                            ),
+                        }
+                    )
 
             successful_fold_count = len(
                 successful_scores
             )
 
             if successful_fold_count == 0:
-                mean_deviance = np.nan
                 mean_mae = np.nan
             else:
-                mean_deviance = float(
-                    np.mean(successful_scores)
-                )
-
                 mean_mae = float(
                     np.mean(successful_maes)
                 )
 
-            alpha_rows.append(
+            hyperparameter_rows.append(
                 {
+                    "power": power,
                     "alpha": alpha,
                     "successful_folds": (
                         successful_fold_count
-                    ),
-                    "mean_poisson_deviance": (
-                        mean_deviance
                     ),
                     "mean_absolute_error": (
                         mean_mae
@@ -1176,13 +1254,13 @@ def select_tweedie_hyperparameters(
                 }
             )
 
-    alpha_summary = pd.DataFrame(
-        alpha_rows
+    hyperparameter_summary = pd.DataFrame(
+        hyperparameter_rows
     )
 
-    eligible = alpha_summary.loc[
+    eligible = hyperparameter_summary.loc[
         (
-            alpha_summary[
+            hyperparameter_summary[
                 "successful_folds"
             ]
             >= int(
@@ -1190,29 +1268,31 @@ def select_tweedie_hyperparameters(
             )
         )
         & (
-            alpha_summary[
-                "mean_poisson_deviance"
+            hyperparameter_summary[
+                "mean_absolute_error"
             ].notna()
         )
     ]
 
     if eligible.empty:
         raise ValueError(
-            "No alpha value produced enough successful "
+            "No Tweedie power-alpha pair produced enough successful "
             "rolling validation folds."
         )
 
-    # Lowest validation deviance is preferred. When two values
-    # tie, prefer the larger alpha and therefore the more
-    # regularised model.
+    # Lowest historical validation MAE is preferred. Ties are
+    # deterministic: prefer the lower power and then the larger
+    # alpha (the more regularised model).
     best_row = (
         eligible
         .sort_values(
             [
-                "mean_poisson_deviance",
+                "mean_absolute_error",
+                "power",
                 "alpha",
             ],
             ascending=[
+                True,
                 True,
                 False,
             ],
@@ -1220,7 +1300,11 @@ def select_tweedie_hyperparameters(
         .iloc[0]
     )
 
-    best_alpha = float(
+    selected_power = float(
+        best_row["power"]
+    )
+
+    selected_alpha = float(
         best_row["alpha"]
     )
 
@@ -1229,8 +1313,9 @@ def select_tweedie_hyperparameters(
     )
 
     return (
-        best_alpha,
-        alpha_summary,
+        selected_power,
+        selected_alpha,
+        hyperparameter_summary,
         fold_results,
     )
 
@@ -1766,6 +1851,320 @@ def fit_regularised_poisson_reserving_model(
         "cell_dataset": cell_dataset,
         "future_predictions": future_cells,
         "alpha_validation": alpha_validation,
+        "fold_validation": fold_validation,
+        "reserve_by_accident_year": (
+            reserve_by_accident_year
+        ),
+        "summary": summary,
+    }
+
+
+def fit_regularised_tweedie_reserving_model(
+    incremental_triangle: pd.DataFrame,
+    inflation_index: Mapping[int, float],
+    valuation_year: int,
+    basis: str,
+    alpha_grid: Sequence[float],
+    power_grid: Sequence[float],
+    minimum_training_diagonals: int,
+    minimum_validation_folds: int,
+    amount_scale: float,
+    structural_break_year: int | None = None,
+) -> dict[str, Any]:
+    """Fit the baseline-feature Regularized Tweedie reserving model."""
+
+    cell_dataset = triangle_to_cell_dataset(
+        incremental_triangle=(
+            incremental_triangle
+        ),
+        inflation_index=inflation_index,
+        valuation_year=valuation_year,
+        basis=basis,
+        amount_scale=amount_scale,
+        structural_break_year=(
+            structural_break_year
+        ),
+    )
+
+    observed_cells = (
+        cell_dataset.loc[
+            cell_dataset["is_observed"]
+        ]
+        .copy()
+    )
+
+    future_cells = (
+        cell_dataset.loc[
+            ~cell_dataset["is_observed"]
+        ]
+        .copy()
+    )
+
+    y_observed = observed_cells[
+        "incremental_paid_scaled"
+    ].to_numpy(dtype=float)
+
+    if np.isclose(
+        y_observed.sum(),
+        0.0,
+    ):
+        raise ValueError(
+            "The complete observed response is zero."
+        )
+
+    (
+        selected_power,
+        selected_alpha,
+        hyperparameter_validation,
+        fold_validation,
+    ) = select_tweedie_hyperparameters(
+        cell_dataset=cell_dataset,
+        alpha_grid=alpha_grid,
+        power_grid=power_grid,
+        minimum_training_diagonals=(
+            minimum_training_diagonals
+        ),
+        minimum_validation_folds=(
+            minimum_validation_folds
+        ),
+        amount_scale=amount_scale,
+    )
+
+    pipeline = build_tweedie_pipeline(
+        alpha=selected_alpha,
+        power=selected_power,
+    )
+
+    pipeline.fit(
+        observed_cells[
+            MODEL_FEATURE_COLUMNS
+        ],
+        y_observed,
+    )
+
+    future_prediction_scaled = (
+        pipeline.predict(
+            future_cells[
+                MODEL_FEATURE_COLUMNS
+            ]
+        )
+    )
+
+    if not np.isfinite(
+        future_prediction_scaled
+    ).all():
+        raise ValueError(
+            "Future Tweedie predictions are not finite."
+        )
+
+    if (
+        future_prediction_scaled < -1e-12
+    ).any():
+        raise ValueError(
+            "Future Tweedie predictions are negative."
+        )
+
+    future_prediction_scaled = np.clip(
+        future_prediction_scaled,
+        0.0,
+        None,
+    )
+
+    future_cells[
+        "predicted_incremental_paid_scaled"
+    ] = future_prediction_scaled
+
+    future_cells[
+        "predicted_incremental_paid"
+    ] = (
+        future_prediction_scaled
+        * float(amount_scale)
+    )
+
+    reserve_rows: list[
+        dict[str, Any]
+    ] = []
+
+    for accident_year in sorted(
+        cell_dataset[
+            "accident_year"
+        ].unique()
+    ):
+        accident_observed = (
+            observed_cells.loc[
+                observed_cells[
+                    "accident_year"
+                ]
+                == accident_year
+            ]
+        )
+
+        accident_future = (
+            future_cells.loc[
+                future_cells[
+                    "accident_year"
+                ]
+                == accident_year
+            ]
+        )
+
+        observed_paid = float(
+            accident_observed[
+                "incremental_paid"
+            ].sum()
+        )
+
+        estimated_reserve = float(
+            accident_future[
+                "predicted_incremental_paid"
+            ].sum()
+        )
+
+        if accident_observed.empty:
+            latest_development_year = 0
+        else:
+            latest_development_year = int(
+                accident_observed[
+                    "development_year"
+                ].max()
+            )
+
+        reserve_rows.append(
+            {
+                "accident_year": int(
+                    accident_year
+                ),
+                "latest_development_year": (
+                    latest_development_year
+                ),
+                "observed_paid": observed_paid,
+                "estimated_reserve": (
+                    estimated_reserve
+                ),
+                "estimated_ultimate": (
+                    observed_paid
+                    + estimated_reserve
+                ),
+            }
+        )
+
+    reserve_by_accident_year = (
+        pd.DataFrame(reserve_rows)
+    )
+
+    portfolio_reserve = float(
+        reserve_by_accident_year[
+            "estimated_reserve"
+        ].sum()
+    )
+
+    future_cell_total = float(
+        future_cells[
+            "predicted_incremental_paid"
+        ].sum()
+    )
+
+    if not np.isclose(
+        portfolio_reserve,
+        future_cell_total,
+        rtol=1e-12,
+        atol=1e-6,
+    ):
+        raise ValueError(
+            "Tweedie accident-year reserves do not reconcile "
+            "with future-cell predictions."
+        )
+
+    selected_validation_row = (
+        hyperparameter_validation.loc[
+            np.isclose(
+                hyperparameter_validation[
+                    "power"
+                ],
+                selected_power,
+            )
+            & np.isclose(
+                hyperparameter_validation[
+                    "alpha"
+                ],
+                selected_alpha,
+            )
+        ]
+        .iloc[0]
+    )
+
+    summary = pd.DataFrame(
+        [
+            {
+                "model": (
+                    REGULARIZED_TWEEDIE_MODEL_NAME
+                ),
+                "basis": basis,
+                "valuation_year": int(
+                    valuation_year
+                ),
+                "selected_power": (
+                    selected_power
+                ),
+                "selected_alpha": (
+                    selected_alpha
+                ),
+                "successful_validation_folds": int(
+                    selected_validation_row[
+                        "successful_folds"
+                    ]
+                ),
+                "validation_mean_absolute_error": float(
+                    selected_validation_row[
+                        "mean_absolute_error"
+                    ]
+                ),
+                "training_rows": int(
+                    len(observed_cells)
+                ),
+                "future_rows": int(
+                    len(future_cells)
+                ),
+                "total_observed_paid": float(
+                    reserve_by_accident_year[
+                        "observed_paid"
+                    ].sum()
+                ),
+                "total_estimated_reserve": (
+                    portfolio_reserve
+                ),
+                "total_estimated_ultimate": float(
+                    reserve_by_accident_year[
+                        "estimated_ultimate"
+                    ].sum()
+                ),
+            }
+        ]
+    )
+
+    if not np.isclose(
+        summary.loc[
+            0,
+            "total_estimated_reserve",
+        ],
+        reserve_by_accident_year[
+            "estimated_reserve"
+        ].sum(),
+        rtol=1e-12,
+        atol=1e-6,
+    ):
+        raise ValueError(
+            "Tweedie summary reserve does not reconcile "
+            "with accident-year reserves."
+        )
+
+    return {
+        "pipeline": pipeline,
+        "cell_dataset": cell_dataset,
+        "future_predictions": future_cells,
+        "hyperparameter_validation": (
+            hyperparameter_validation
+        ),
         "fold_validation": fold_validation,
         "reserve_by_accident_year": (
             reserve_by_accident_year
