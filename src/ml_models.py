@@ -44,6 +44,10 @@ MODEL_FEATURE_COLUMNS = (
     + CATEGORICAL_FEATURE_COLUMNS
 )
 
+BREAK_INTERACTION_MODEL_NAME = (
+    "regularized_poisson_break_interaction"
+)
+
 
 def prepare_incremental_triangle(
     triangle: pd.DataFrame,
@@ -353,6 +357,81 @@ def triangle_to_cell_dataset(
 
     return pd.DataFrame(rows)
 
+def add_break_development_interactions(
+    cell_dataset: pd.DataFrame,
+) -> tuple[
+    pd.DataFrame,
+    list[str],
+]:
+    """Add structural-break × development-year interactions.
+
+    Development year 1 is used as the reference category.
+
+    The interaction terms depend only on the existing
+    structural-break indicator and triangle coordinates.
+    No future payment outcomes or reserve truth are used.
+    """
+
+    required_columns = {
+        "development_year",
+        "structural_break_indicator",
+    }
+
+    missing = (
+        required_columns
+        - set(cell_dataset.columns)
+    )
+
+    if missing:
+        raise ValueError(
+            "Missing columns required for "
+            "break-development interactions: "
+            f"{sorted(missing)}"
+        )
+
+    output = cell_dataset.copy()
+
+    development_years = sorted(
+        int(value)
+        for value in output[
+            "development_year"
+        ].unique()
+    )
+
+    interaction_columns: list[str] = []
+
+    for development_year in development_years:
+
+        # Development year 1 is the reference category.
+        if development_year == 1:
+            continue
+
+        column_name = (
+            "structural_break_x_development_"
+            f"{development_year}"
+        )
+
+        output[column_name] = (
+            output[
+                "structural_break_indicator"
+            ].astype(float)
+            * (
+                output[
+                    "development_year"
+                ]
+                == development_year
+            ).astype(float)
+        )
+
+        interaction_columns.append(
+            column_name
+        )
+
+    return (
+        output,
+        interaction_columns,
+    )
+
 
 def build_poisson_pipeline(
     alpha: float,
@@ -375,6 +454,68 @@ def build_poisson_pipeline(
                 "numeric",
                 StandardScaler(),
                 NUMERIC_FEATURE_COLUMNS,
+            ),
+            (
+                "development",
+                OneHotEncoder(
+                    handle_unknown="ignore"
+                ),
+                CATEGORICAL_FEATURE_COLUMNS,
+            ),
+        ],
+        remainder="drop",
+    )
+
+    model = PoissonRegressor(
+        alpha=float(alpha),
+        max_iter=2_000,
+        tol=1e-8,
+    )
+
+    return Pipeline(
+        steps=[
+            (
+                "preprocessing",
+                preprocessor,
+            ),
+            (
+                "model",
+                model,
+            ),
+        ]
+    )
+
+def build_poisson_break_interaction_pipeline(
+    alpha: float,
+    interaction_feature_columns: Sequence[str],
+) -> Pipeline:
+    """Create the Poisson model with break-development interactions."""
+
+    if not np.isfinite(alpha):
+        raise ValueError(
+            "alpha must be finite."
+        )
+
+    if alpha <= 0.0:
+        raise ValueError(
+            "alpha must be positive."
+        )
+
+    interaction_feature_columns = list(
+        interaction_feature_columns
+    )
+
+    numeric_features = (
+        NUMERIC_FEATURE_COLUMNS
+        + interaction_feature_columns
+    )
+
+    preprocessor = ColumnTransformer(
+        transformers=[
+            (
+                "numeric",
+                StandardScaler(),
+                numeric_features,
             ),
             (
                 "development",
@@ -777,6 +918,296 @@ def select_regularisation_alpha(
     )
 
 
+def select_break_interaction_regularisation_alpha(
+    cell_dataset: pd.DataFrame,
+    interaction_feature_columns: Sequence[str],
+    alpha_grid: Sequence[float],
+    minimum_training_diagonals: int,
+    minimum_validation_folds: int,
+    amount_scale: float,
+) -> tuple[
+    float,
+    pd.DataFrame,
+    pd.DataFrame,
+]:
+    """Select alpha for the break-interaction Poisson model."""
+
+    if not alpha_grid:
+        raise ValueError(
+            "alpha_grid cannot be empty."
+        )
+
+    if minimum_validation_folds < 1:
+        raise ValueError(
+            "minimum_validation_folds "
+            "must be positive."
+        )
+
+    observed_cells = (
+        cell_dataset.loc[
+            cell_dataset["is_observed"]
+        ]
+        .reset_index(drop=True)
+    )
+
+    splits = generate_rolling_diagonal_splits(
+        observed_cells=observed_cells,
+        minimum_training_diagonals=(
+            minimum_training_diagonals
+        ),
+    )
+
+    fold_rows: list[
+        dict[str, Any]
+    ] = []
+
+    alpha_rows: list[
+        dict[str, Any]
+    ] = []
+
+    for alpha in alpha_grid:
+        alpha = float(alpha)
+
+        if alpha <= 0.0:
+            raise ValueError(
+                "All alpha values must be positive."
+            )
+
+        successful_scores: list[float] = []
+        successful_maes: list[float] = []
+
+        for (
+            validation_year,
+            training_indices,
+            validation_indices,
+        ) in splits:
+
+            training_data = (
+                observed_cells.iloc[
+                    training_indices
+                ]
+            )
+
+            validation_data = (
+                observed_cells.iloc[
+                    validation_indices
+                ]
+            )
+
+            y_train = training_data[
+                "incremental_paid_scaled"
+            ].to_numpy(dtype=float)
+
+            y_validation = validation_data[
+                "incremental_paid_scaled"
+            ].to_numpy(dtype=float)
+
+            # A Poisson model cannot be estimated when every
+            # training response is zero. This can occur in very
+            # early ceded diagonals, so those folds are skipped.
+            if np.isclose(
+                y_train.sum(),
+                0.0,
+            ):
+                fold_rows.append(
+                    {
+                        "alpha": alpha,
+                        "validation_year": (
+                            validation_year
+                        ),
+                        "fold_status": (
+                            "skipped_zero_training_total"
+                        ),
+                        "training_rows": int(
+                            len(training_data)
+                        ),
+                        "validation_rows": int(
+                            len(validation_data)
+                        ),
+                        "mean_poisson_deviance": (
+                            np.nan
+                        ),
+                        "mean_absolute_error": (
+                            np.nan
+                        ),
+                    }
+                )
+
+                continue
+
+            pipeline = (
+                build_poisson_break_interaction_pipeline(
+                    alpha=alpha,
+                    interaction_feature_columns=(
+                        interaction_feature_columns
+                    ),
+                )
+            )
+
+            pipeline.fit(
+                training_data[
+                    MODEL_FEATURE_COLUMNS
+                    + list(
+                        interaction_feature_columns
+                    )
+                ],
+                y_train,
+            )
+
+            prediction = pipeline.predict(
+                validation_data[
+                    MODEL_FEATURE_COLUMNS
+                    + list(
+                        interaction_feature_columns
+                    )
+                ]
+            )
+
+            prediction = np.clip(
+                prediction,
+                1e-12,
+                None,
+            )
+
+            poisson_deviance = float(
+                mean_poisson_deviance(
+                    y_validation,
+                    prediction,
+                )
+            )
+
+            mae_scaled = float(
+                mean_absolute_error(
+                    y_validation,
+                    prediction,
+                )
+            )
+
+            mae_original = (
+                mae_scaled
+                * float(amount_scale)
+            )
+
+            successful_scores.append(
+                poisson_deviance
+            )
+
+            successful_maes.append(
+                mae_original
+            )
+
+            fold_rows.append(
+                {
+                    "alpha": alpha,
+                    "validation_year": (
+                        validation_year
+                    ),
+                    "fold_status": "success",
+                    "training_rows": int(
+                        len(training_data)
+                    ),
+                    "validation_rows": int(
+                        len(validation_data)
+                    ),
+                    "mean_poisson_deviance": (
+                        poisson_deviance
+                    ),
+                    "mean_absolute_error": (
+                        mae_original
+                    ),
+                }
+            )
+
+        successful_fold_count = len(
+            successful_scores
+        )
+
+        if successful_fold_count == 0:
+            mean_deviance = np.nan
+            mean_mae = np.nan
+        else:
+            mean_deviance = float(
+                np.mean(successful_scores)
+            )
+
+            mean_mae = float(
+                np.mean(successful_maes)
+            )
+
+        alpha_rows.append(
+            {
+                "alpha": alpha,
+                "successful_folds": (
+                    successful_fold_count
+                ),
+                "mean_poisson_deviance": (
+                    mean_deviance
+                ),
+                "mean_absolute_error": (
+                    mean_mae
+                ),
+            }
+        )
+
+    alpha_summary = pd.DataFrame(
+        alpha_rows
+    )
+
+    eligible = alpha_summary.loc[
+        (
+            alpha_summary[
+                "successful_folds"
+            ]
+            >= int(
+                minimum_validation_folds
+            )
+        )
+        & (
+            alpha_summary[
+                "mean_poisson_deviance"
+            ].notna()
+        )
+    ]
+
+    if eligible.empty:
+        raise ValueError(
+            "No alpha value produced enough successful "
+            "rolling validation folds."
+        )
+
+    # Lowest validation deviance is preferred. When two values
+    # tie, prefer the larger alpha and therefore the more
+    # regularised model.
+    best_row = (
+        eligible
+        .sort_values(
+            [
+                "mean_poisson_deviance",
+                "alpha",
+            ],
+            ascending=[
+                True,
+                False,
+            ],
+        )
+        .iloc[0]
+    )
+
+    best_alpha = float(
+        best_row["alpha"]
+    )
+
+    fold_results = pd.DataFrame(
+        fold_rows
+    )
+
+    return (
+        best_alpha,
+        alpha_summary,
+        fold_results,
+    )
+
+
 def fit_regularised_poisson_reserving_model(
     incremental_triangle: pd.DataFrame,
     inflation_index: Mapping[int, float],
@@ -993,6 +1424,285 @@ def fit_regularised_poisson_reserving_model(
                 ),
                 "future_rows": int(
                     len(future_cells)
+                ),
+                "total_observed_paid": float(
+                    reserve_by_accident_year[
+                        "observed_paid"
+                    ].sum()
+                ),
+                "total_estimated_reserve": float(
+                    reserve_by_accident_year[
+                        "estimated_reserve"
+                    ].sum()
+                ),
+                "total_estimated_ultimate": float(
+                    reserve_by_accident_year[
+                        "estimated_ultimate"
+                    ].sum()
+                ),
+            }
+        ]
+    )
+
+    return {
+        "pipeline": pipeline,
+        "cell_dataset": cell_dataset,
+        "future_predictions": future_cells,
+        "alpha_validation": alpha_validation,
+        "fold_validation": fold_validation,
+        "reserve_by_accident_year": (
+            reserve_by_accident_year
+        ),
+        "summary": summary,
+    }
+
+
+def fit_regularised_poisson_break_interaction_reserving_model(
+    incremental_triangle: pd.DataFrame,
+    inflation_index: Mapping[int, float],
+    valuation_year: int,
+    basis: str,
+    alpha_grid: Sequence[float],
+    minimum_training_diagonals: int,
+    minimum_validation_folds: int,
+    amount_scale: float,
+    structural_break_year: int | None = None,
+) -> dict[str, Any]:
+    """Fit regularised Poisson with break-development interactions."""
+
+    cell_dataset = triangle_to_cell_dataset(
+        incremental_triangle=(
+            incremental_triangle
+        ),
+        inflation_index=inflation_index,
+        valuation_year=valuation_year,
+        basis=basis,
+        amount_scale=amount_scale,
+        structural_break_year=(
+            structural_break_year
+        ),
+    )
+
+    (
+        cell_dataset,
+        interaction_feature_columns,
+    ) = add_break_development_interactions(
+        cell_dataset
+    )
+
+    interaction_model_feature_columns = (
+        MODEL_FEATURE_COLUMNS
+        + interaction_feature_columns
+    )
+
+    observed_cells = (
+        cell_dataset.loc[
+            cell_dataset["is_observed"]
+        ]
+        .copy()
+    )
+
+    future_cells = (
+        cell_dataset.loc[
+            ~cell_dataset["is_observed"]
+        ]
+        .copy()
+    )
+
+    y_observed = observed_cells[
+        "incremental_paid_scaled"
+    ].to_numpy(dtype=float)
+
+    if np.isclose(
+        y_observed.sum(),
+        0.0,
+    ):
+        raise ValueError(
+            "The complete observed response is zero."
+        )
+
+    (
+        best_alpha,
+        alpha_validation,
+        fold_validation,
+    ) = select_break_interaction_regularisation_alpha(
+        cell_dataset=cell_dataset,
+        interaction_feature_columns=(
+            interaction_feature_columns
+        ),
+        alpha_grid=alpha_grid,
+        minimum_training_diagonals=(
+            minimum_training_diagonals
+        ),
+        minimum_validation_folds=(
+            minimum_validation_folds
+        ),
+        amount_scale=amount_scale,
+    )
+
+    pipeline = (
+        build_poisson_break_interaction_pipeline(
+            alpha=best_alpha,
+            interaction_feature_columns=(
+                interaction_feature_columns
+            ),
+        )
+    )
+
+    pipeline.fit(
+        observed_cells[
+            interaction_model_feature_columns
+        ],
+        y_observed,
+    )
+
+    future_prediction_scaled = (
+        pipeline.predict(
+            future_cells[
+                interaction_model_feature_columns
+            ]
+        )
+    )
+
+    future_prediction_scaled = np.clip(
+        future_prediction_scaled,
+        0.0,
+        None,
+    )
+
+    future_cells[
+        "predicted_incremental_paid_scaled"
+    ] = future_prediction_scaled
+
+    future_cells[
+        "predicted_incremental_paid"
+    ] = (
+        future_prediction_scaled
+        * float(amount_scale)
+    )
+
+    reserve_rows: list[
+        dict[str, Any]
+    ] = []
+
+    for accident_year in sorted(
+        cell_dataset[
+            "accident_year"
+        ].unique()
+    ):
+        accident_observed = (
+            observed_cells.loc[
+                observed_cells[
+                    "accident_year"
+                ]
+                == accident_year
+            ]
+        )
+
+        accident_future = (
+            future_cells.loc[
+                future_cells[
+                    "accident_year"
+                ]
+                == accident_year
+            ]
+        )
+
+        observed_paid = float(
+            accident_observed[
+                "incremental_paid"
+            ].sum()
+        )
+
+        estimated_reserve = float(
+            accident_future[
+                "predicted_incremental_paid"
+            ].sum()
+        )
+
+        if accident_observed.empty:
+            latest_development_year = 0
+        else:
+            latest_development_year = int(
+                accident_observed[
+                    "development_year"
+                ].max()
+            )
+
+        reserve_rows.append(
+            {
+                "accident_year": int(
+                    accident_year
+                ),
+                "latest_development_year": (
+                    latest_development_year
+                ),
+                "observed_paid": observed_paid,
+                "estimated_reserve": (
+                    estimated_reserve
+                ),
+                "estimated_ultimate": (
+                    observed_paid
+                    + estimated_reserve
+                ),
+            }
+        )
+
+    reserve_by_accident_year = (
+        pd.DataFrame(reserve_rows)
+    )
+
+    best_validation_row = (
+        alpha_validation.loc[
+            alpha_validation["alpha"]
+            == best_alpha
+        ]
+        .iloc[0]
+    )
+
+    summary = pd.DataFrame(
+        [
+            {
+                "model": (
+                    BREAK_INTERACTION_MODEL_NAME
+                ),
+                "basis": basis,
+                "valuation_year": int(
+                    valuation_year
+                ),
+                "selected_alpha": (
+                    best_alpha
+                ),
+                "successful_validation_folds": int(
+                    best_validation_row[
+                        "successful_folds"
+                    ]
+                ),
+                "validation_mean_poisson_deviance": float(
+                    best_validation_row[
+                        "mean_poisson_deviance"
+                    ]
+                ),
+                "validation_mean_absolute_error": float(
+                    best_validation_row[
+                        "mean_absolute_error"
+                    ]
+                ),
+                "training_rows": int(
+                    len(observed_cells)
+                ),
+                "future_rows": int(
+                    len(future_cells)
+                ),
+                "interaction_feature_count": int(
+                    len(
+                        interaction_feature_columns
+                    )
+                ),
+                "total_model_feature_count": int(
+                    len(
+                        interaction_model_feature_columns
+                    )
                 ),
                 "total_observed_paid": float(
                     reserve_by_accident_year[

@@ -1,0 +1,10 @@
+check,passed,detail
+required_columns_present,True,
+expected_row_count,True,"actual=1800, expected=1800"
+one_unique_row_per_model_scenario,True,
+no_numeric_infinities,True,
+successful_estimates_are_finite,True,
+failures_have_reasons,True,
+no_unexplained_model_failures,True,
+pipeline_reconciliations_passed,True,
+successful_model_reconciliations_passed,True,
