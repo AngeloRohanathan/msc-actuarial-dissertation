@@ -1,0 +1,25 @@
+check,applicable,passed,detail
+all_five_prior_multipliers_present,True,True,"present=[np.float64(0.8), np.float64(0.9), np.float64(1.0), np.float64(1.1), np.float64(1.2)]"
+all_requested_prior_multipliers_present,True,True,"requested=[0.8, 0.9, 1.0, 1.1, 1.2]"
+all_expected_scenarios_present,True,True,scenarios=9
+both_bases_present,True,True,"bases=['ceded', 'gross']"
+all_three_models_present,True,True,"models=['bornhuetter_ferguson_break_aware', 'bornhuetter_ferguson_standard', 'expected_loss']"
+correct_expected_result_row_count,True,True,"actual=13500, expected=13500"
+full_sensitivity_row_count_is_13500,True,True,"actual=13500, expected=13500"
+result_keys_are_unique,True,True,
+detail_keys_are_unique,True,True,
+prior_multiplier_transformation_is_exact,True,True,
+original_prior_file_is_unchanged,True,True,sha256=06c23adae7ab9d96e0fd657d3af173a0bf05f91bd00e55d911c08d8459023912
+multiplier_1_reproduces_step20_expected_loss,True,True,"max_abs=2.38418579102e-07, max_rel=4.78166869133e-16, nonmatching=0"
+multiplier_1_reproduces_step21_standard_bf,True,True,"max_abs=1.19209289551e-07, max_rel=2.18267003151e-16, nonmatching=0"
+multiplier_1_reproduces_step21_break_aware_bf,True,True,"max_abs=1.19209289551e-07, max_rel=1.56407735029e-16, nonmatching=0"
+truth_is_identical_across_multipliers_and_models,True,True,
+paid_to_date_is_identical_across_multipliers_and_models,True,True,
+paid_to_date_matches_frozen_step20_source,True,True,
+bf_development_proportions_are_unchanged_across_multipliers,True,True,
+bf_development_assumptions_match_frozen_step21,True,True,
+prior_scaling_api_has_no_evaluation_truth_input,True,True,
+successful_reserves_are_finite_and_nonnegative,True,True,
+all_failures_are_represented,True,True,
+accident_year_reserves_reconcile_to_portfolio,True,True,
+source_prior_version_is_traceable,True,True,

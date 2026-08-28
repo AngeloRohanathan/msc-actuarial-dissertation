@@ -1,0 +1,63 @@
+{
+  "created_at": "2026-08-29T00:36:29.319147+01:00",
+  "step": 27,
+  "method": "prior_misspecification_sensitivity",
+  "run_label": "final_50",
+  "baseline_reproduction_gate": false,
+  "prior_multipliers": [
+    0.8,
+    0.9,
+    1.0,
+    1.1,
+    1.2
+  ],
+  "configured_prior_multiplier_grid": [
+    0.8,
+    0.9,
+    1.0,
+    1.1,
+    1.2
+  ],
+  "models": [
+    "expected_loss",
+    "bornhuetter_ferguson_standard",
+    "bornhuetter_ferguson_break_aware"
+  ],
+  "bases": [
+    "gross",
+    "ceded"
+  ],
+  "scenario_ids": [
+    "long_emerging_break",
+    "long_emerging_no_break",
+    "long_shock_break",
+    "long_shock_no_break",
+    "long_stable_break",
+    "long_stable_no_break",
+    "short_emerging_no_break",
+    "short_shock_no_break",
+    "short_stable_no_break"
+  ],
+  "simulations_per_scenario": 50,
+  "result_rows": 13500,
+  "accident_year_detail_rows": 202500,
+  "successes": 13500,
+  "failures": 0,
+  "valuation_year": 2024,
+  "baseline_prior_version": "pricing_mc_v1",
+  "source_files": {
+    "step19_prior": "data\\calibration\\expected_loss_prior\\final_2000\\expected_loss_prior.csv",
+    "step20_detail": "outputs\\step20_expected_loss\\final_50\\expected_loss_by_accident_year.csv",
+    "step20_results": "outputs\\step20_expected_loss\\final_50\\expected_loss_results.csv",
+    "step21_detail": "outputs\\step21_paid_bf\\final_50\\bf_by_accident_year.csv",
+    "step21_results": "outputs\\step21_paid_bf\\final_50\\bf_results.csv"
+  },
+  "step19_prior_sha256_before": "06c23adae7ab9d96e0fd657d3af173a0bf05f91bd00e55d911c08d8459023912",
+  "step19_prior_sha256_after": "06c23adae7ab9d96e0fd657d3af173a0bf05f91bd00e55d911c08d8459023912",
+  "portfolio_resimulation_performed": false,
+  "evaluation_truth_used_for_prior_scaling": false,
+  "evaluation_truth_used_for": "evaluation_only_after_estimation",
+  "baseline_reproduction_rtol": 1e-12,
+  "baseline_reproduction_atol": 1e-05,
+  "elapsed_seconds": 195.45172620000085
+}

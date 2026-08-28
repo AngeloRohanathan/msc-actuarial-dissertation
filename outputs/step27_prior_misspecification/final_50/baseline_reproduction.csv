@@ -1,0 +1,4 @@
+model,frozen_source_step,compared_rows,missing_step27_rows,missing_frozen_rows,max_absolute_reserve_difference,max_relative_reserve_difference,nonmatching_reserve_rows,nonmatching_truth_rows,nonmatching_status_rows,rtol,atol,passed
+expected_loss,Step 20,900,0,0,2.384185791015625e-07,4.781668691327244e-16,0,0,0,1e-12,1e-05,True
+bornhuetter_ferguson_standard,Step 21,900,0,0,1.1920928955078125e-07,2.182670031512832e-16,0,0,0,1e-12,1e-05,True
+bornhuetter_ferguson_break_aware,Step 21,900,0,0,1.1920928955078125e-07,1.564077350287707e-16,0,0,0,1e-12,1e-05,True
