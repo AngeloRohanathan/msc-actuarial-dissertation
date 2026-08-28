@@ -317,6 +317,15 @@ ML_MIN_VALIDATION_FOLDS = 3
 # stability. Predictions are converted back to pounds afterwards.
 ML_AMOUNT_SCALE = 1_000_000.0
 
+ML_TWEEDIE_POWER_GRID = (
+    1.1,
+    1.3,
+    1.5,
+    1.7,
+    1.9,
+)
+
+ML_TWEEDIE_ALPHA_GRID = ML_POISSON_ALPHA_GRID
 
 # ---------------------------------------------------------------------
 # End-to-end experiment assumptions

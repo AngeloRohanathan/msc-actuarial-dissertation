@@ -17,7 +17,7 @@ import numpy as np
 import pandas as pd
 
 from sklearn.compose import ColumnTransformer
-from sklearn.linear_model import PoissonRegressor
+from sklearn.linear_model import PoissonRegressor, TweedieRegressor
 from sklearn.metrics import (
     mean_absolute_error,
     mean_poisson_deviance,
@@ -47,6 +47,8 @@ MODEL_FEATURE_COLUMNS = (
 BREAK_INTERACTION_MODEL_NAME = (
     "regularized_poisson_break_interaction"
 )
+
+REGULARIZED_TWEEDIE_MODEL_NAME = "regularized_tweedie"
 
 
 def prepare_incremental_triangle(
@@ -485,6 +487,41 @@ def build_poisson_pipeline(
         ]
     )
 
+def build_tweedie_pipeline(
+    alpha: float,
+    power: float,
+) -> Pipeline:
+    preprocessor = ColumnTransformer(
+        transformers=[
+            (
+                "numeric",
+                StandardScaler(),
+                NUMERIC_FEATURE_COLUMNS,
+            ),
+            (
+                "development",
+                OneHotEncoder(handle_unknown="ignore"),
+                CATEGORICAL_FEATURE_COLUMNS,
+            ),
+        ],
+        remainder="drop",
+    )
+
+    model = TweedieRegressor(
+        power=float(power),
+        alpha=float(alpha),
+        link="log",
+        max_iter=2_000,
+        tol=1e-8,
+    )
+
+    return Pipeline(
+        [
+            ("preprocessing", preprocessor),
+            ("model", model),
+        ]
+    )
+
 def build_poisson_break_interaction_pipeline(
     alpha: float,
     interaction_feature_columns: Sequence[str],
@@ -858,6 +895,286 @@ def select_regularisation_alpha(
                 ),
             }
         )
+
+    alpha_summary = pd.DataFrame(
+        alpha_rows
+    )
+
+    eligible = alpha_summary.loc[
+        (
+            alpha_summary[
+                "successful_folds"
+            ]
+            >= int(
+                minimum_validation_folds
+            )
+        )
+        & (
+            alpha_summary[
+                "mean_poisson_deviance"
+            ].notna()
+        )
+    ]
+
+    if eligible.empty:
+        raise ValueError(
+            "No alpha value produced enough successful "
+            "rolling validation folds."
+        )
+
+    # Lowest validation deviance is preferred. When two values
+    # tie, prefer the larger alpha and therefore the more
+    # regularised model.
+    best_row = (
+        eligible
+        .sort_values(
+            [
+                "mean_poisson_deviance",
+                "alpha",
+            ],
+            ascending=[
+                True,
+                False,
+            ],
+        )
+        .iloc[0]
+    )
+
+    best_alpha = float(
+        best_row["alpha"]
+    )
+
+    fold_results = pd.DataFrame(
+        fold_rows
+    )
+
+    return (
+        best_alpha,
+        alpha_summary,
+        fold_results,
+    )
+
+def select_tweedie_hyperparameters(
+    cell_dataset: pd.DataFrame,
+    alpha_grid: Sequence[float],
+    power_grid,
+    minimum_training_diagonals: int,
+    minimum_validation_folds: int,
+    amount_scale: float,
+) -> tuple[
+    float,
+    pd.DataFrame,
+    pd.DataFrame,
+]:
+    """Select alpha using rolling calendar-diagonal validation."""
+
+    if not alpha_grid:
+        raise ValueError(
+            "alpha_grid cannot be empty."
+        )
+
+    if minimum_validation_folds < 1:
+        raise ValueError(
+            "minimum_validation_folds "
+            "must be positive."
+        )
+
+    observed_cells = (
+        cell_dataset.loc[
+            cell_dataset["is_observed"]
+        ]
+        .reset_index(drop=True)
+    )
+
+    splits = generate_rolling_diagonal_splits(
+        observed_cells=observed_cells,
+        minimum_training_diagonals=(
+            minimum_training_diagonals
+        ),
+    )
+
+    fold_rows: list[
+        dict[str, Any]
+    ] = []
+
+    alpha_rows: list[
+        dict[str, Any]
+    ] = []
+
+    for power in power_grid:
+        for alpha in alpha_grid:
+            alpha = float(alpha)
+
+            if alpha <= 0.0:
+                raise ValueError(
+                    "All alpha values must be positive."
+                )
+
+            successful_scores: list[float] = []
+            successful_maes: list[float] = []
+
+            for (
+                validation_year,
+                training_indices,
+                validation_indices,
+            ) in splits:
+
+                training_data = (
+                    observed_cells.iloc[
+                        training_indices
+                    ]
+                )
+
+                validation_data = (
+                    observed_cells.iloc[
+                        validation_indices
+                    ]
+                )
+
+                y_train = training_data[
+                    "incremental_paid_scaled"
+                ].to_numpy(dtype=float)
+
+                y_validation = validation_data[
+                    "incremental_paid_scaled"
+                ].to_numpy(dtype=float)
+
+                # A Poisson model cannot be estimated when every
+                # training response is zero. This can occur in very
+                # early ceded diagonals, so those folds are skipped.
+                if np.isclose(
+                    y_train.sum(),
+                    0.0,
+                ):
+                    fold_rows.append(
+                        {
+                            "alpha": alpha,
+                            "validation_year": (
+                                validation_year
+                            ),
+                            "fold_status": (
+                                "skipped_zero_training_total"
+                            ),
+                            "training_rows": int(
+                                len(training_data)
+                            ),
+                            "validation_rows": int(
+                                len(validation_data)
+                            ),
+                            "mean_poisson_deviance": (
+                                np.nan
+                            ),
+                            "mean_absolute_error": (
+                                np.nan
+                            ),
+                        }
+                    )
+
+                    continue
+
+                pipeline = build_tweedie_pipeline(
+                    alpha=float(alpha),
+                    power=float(power),
+                )
+
+                pipeline.fit(
+                    training_data[
+                        MODEL_FEATURE_COLUMNS
+                    ],
+                    y_train,
+                )
+
+                prediction = pipeline.predict(
+                    validation_data[
+                        MODEL_FEATURE_COLUMNS
+                    ]
+                )
+
+                prediction = np.clip(
+                    prediction,
+                    1e-12,
+                    None,
+                )
+
+                poisson_deviance = float(
+                    mean_poisson_deviance(
+                        y_validation,
+                        prediction,
+                    )
+                )
+
+                mae_scaled = float(
+                    mean_absolute_error(
+                        y_validation,
+                        prediction,
+                    )
+                )
+
+                mae_original = (
+                    mae_scaled
+                    * float(amount_scale)
+                )
+
+                successful_scores.append(
+                    poisson_deviance
+                )
+
+                successful_maes.append(
+                    mae_original
+                )
+
+                fold_rows.append(
+                    {
+                        "alpha": alpha,
+                        "validation_year": (
+                            validation_year
+                        ),
+                        "fold_status": "success",
+                        "training_rows": int(
+                            len(training_data)
+                        ),
+                        "validation_rows": int(
+                            len(validation_data)
+                        ),
+                        "mean_poisson_deviance": (
+                            poisson_deviance
+                        ),
+                        "mean_absolute_error": (
+                            mae_original
+                        ),
+                    }
+                )
+
+            successful_fold_count = len(
+                successful_scores
+            )
+
+            if successful_fold_count == 0:
+                mean_deviance = np.nan
+                mean_mae = np.nan
+            else:
+                mean_deviance = float(
+                    np.mean(successful_scores)
+                )
+
+                mean_mae = float(
+                    np.mean(successful_maes)
+                )
+
+            alpha_rows.append(
+                {
+                    "alpha": alpha,
+                    "successful_folds": (
+                        successful_fold_count
+                    ),
+                    "mean_poisson_deviance": (
+                        mean_deviance
+                    ),
+                    "mean_absolute_error": (
+                        mean_mae
+                    ),
+                }
+            )
 
     alpha_summary = pd.DataFrame(
         alpha_rows
