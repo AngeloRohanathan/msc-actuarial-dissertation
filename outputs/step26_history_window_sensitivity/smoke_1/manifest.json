@@ -1,0 +1,72 @@
+{
+  "run_label": "smoke_1",
+  "created_at": "2026-08-28T19:24:36.041998+01:00",
+  "experiment": "historical_data_window_sensitivity",
+  "simulations_per_scenario": 1,
+  "scenario_ids": [
+    "short_stable_no_break",
+    "short_emerging_no_break",
+    "short_shock_no_break",
+    "long_stable_no_break",
+    "long_emerging_no_break",
+    "long_shock_no_break",
+    "long_stable_break",
+    "long_emerging_break",
+    "long_shock_break"
+  ],
+  "number_of_scenarios": 9,
+  "expected_result_rows": 432,
+  "actual_result_rows": 432,
+  "base_seed": 20260816,
+  "valuation_year": 2024,
+  "history_windows": {
+    "15": 2010,
+    "10": 2015,
+    "7": 2018,
+    "5": 2020
+  },
+  "evaluation_start_ay": 2020,
+  "evaluation_end_ay": 2024,
+  "models": [
+    "chain_ladder",
+    "inflation_adjusted_chain_ladder",
+    "cashflow_uplift",
+    "regularized_poisson",
+    "regularized_poisson_break_interaction",
+    "regularized_tweedie"
+  ],
+  "bases": [
+    "gross",
+    "ceded"
+  ],
+  "treaty_attachment": 2000000.0,
+  "treaty_limit": 5000000.0,
+  "clause_type": "none",
+  "minimum_training_diagonals": 5,
+  "minimum_validation_folds": 3,
+  "poisson_alpha_grid": [
+    0.0001,
+    0.001,
+    0.01,
+    0.1,
+    1.0,
+    10.0
+  ],
+  "tweedie_alpha_grid": [
+    0.0001,
+    0.001,
+    0.01,
+    0.1,
+    1.0,
+    10.0
+  ],
+  "tweedie_power_grid": [
+    1.1,
+    1.3,
+    1.5,
+    1.7,
+    1.9
+  ],
+  "evaluation_truth_used_for_fitting": false,
+  "elapsed_seconds": 280.6607041000025
+}

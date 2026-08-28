@@ -1,0 +1,22 @@
+check,passed,detail
+expected_row_count,True,"actual=432, expected=432"
+all_requested_history_windows_present,True,
+history_windows_map_to_frozen_start_years,True,"{15: 2010, 10: 2015, 7: 2018, 5: 2020}"
+fixed_evaluation_target_ay2020_2024,True,
+all_nine_scenarios_present,True,
+both_bases_present,True,
+all_six_models_present,True,
+same_truth_across_history_windows,True,
+same_truth_across_models,True,
+no_pre_window_accident_years_supplied,True,
+no_future_cells_enter_model_fitting,True,
+estimated_target_reserve_uses_ay2020_2024_only,True,
+true_target_reserve_uses_ay2020_2024_only,True,
+target_ay_reserve_aggregation_reconciles,True,
+successful_estimates_finite_and_nonnegative,True,
+selected_hyperparameters_in_frozen_grids,True,
+failures_completely_reported,True,failed_rows=252
+row_count_reconciles_successes_and_failures,True,"successes=180, failures=252"
+unique_scenario_simulation_basis_model_window_key,True,
+pipeline_reconciliations_passed,True,
+successful_model_reconciliations_passed,True,
