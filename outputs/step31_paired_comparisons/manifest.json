@@ -1,0 +1,50 @@
+{
+  "created_at": "2026-08-29T03:01:05.959678+01:00",
+  "step": 31,
+  "analysis_only": true,
+  "simulation_or_model_reruns": false,
+  "source_experiments_loaded": 8,
+  "source_files": {
+    "step20_expected_loss": "outputs\\step20_expected_loss\\final_50\\expected_loss_results.csv",
+    "step21_paid_bf": "outputs\\step21_paid_bf\\final_50\\bf_results.csv",
+    "step24_poisson_break_interaction": "outputs\\step24_poisson_break_interaction\\final_50\\results.csv",
+    "step25_regularized_tweedie": "outputs\\step25_regularized_tweedie\\final_50\\results.csv",
+    "step26_history_window": "outputs\\step26_history_window_sensitivity\\final_50\\results.csv",
+    "step27_prior_sensitivity": "outputs\\step27_prior_misspecification\\final_50\\results.csv",
+    "step28_ceded_bf": "outputs\\step28_ceded_bf_development_sensitivity\\final_50\\results.csv",
+    "step29_treaty_indexation": "outputs\\step29_treaty_indexation_sensitivity\\final_50\\results.csv"
+  },
+  "source_sha256_before": {
+    "step20_expected_loss": "8a3dc2f2faa77e77e1736f66283ca9e65f13cd11ed25517ab5774613bbfeec19",
+    "step21_paid_bf": "87403bf42c58d291b0e18c1ae3e35dd568100444b5a0bae59f3f50dba8a130f6",
+    "step24_poisson_break_interaction": "1a8840f7971360aef3333204fb1d9dd3b0a537b46fe4da4a45eb0118f5023b78",
+    "step25_regularized_tweedie": "d3217e17ea6c8ac16293727a8db711b3d05653ebd0807fd4042d85aba968858b",
+    "step26_history_window": "97b426bb85eeec64f6bf893d2887765301ac1774349c97043eee39d2309251b1",
+    "step27_prior_sensitivity": "30fbad670559b2118d94e0fc95b068068346c6671574eb307db07a4cb5e6da4d",
+    "step28_ceded_bf": "ee42166f0a253715371a819f917981f6216044d944fb067cb8632d0e8d27117f",
+    "step29_treaty_indexation": "fa504f1990d0f0693a314634506c87ee3f8699691195585e4e0b9070a9e6a1c2"
+  },
+  "source_sha256_after": {
+    "step20_expected_loss": "8a3dc2f2faa77e77e1736f66283ca9e65f13cd11ed25517ab5774613bbfeec19",
+    "step21_paid_bf": "87403bf42c58d291b0e18c1ae3e35dd568100444b5a0bae59f3f50dba8a130f6",
+    "step24_poisson_break_interaction": "1a8840f7971360aef3333204fb1d9dd3b0a537b46fe4da4a45eb0118f5023b78",
+    "step25_regularized_tweedie": "d3217e17ea6c8ac16293727a8db711b3d05653ebd0807fd4042d85aba968858b",
+    "step26_history_window": "97b426bb85eeec64f6bf893d2887765301ac1774349c97043eee39d2309251b1",
+    "step27_prior_sensitivity": "30fbad670559b2118d94e0fc95b068068346c6671574eb307db07a4cb5e6da4d",
+    "step28_ceded_bf": "ee42166f0a253715371a819f917981f6216044d944fb067cb8632d0e8d27117f",
+    "step29_treaty_indexation": "fa504f1990d0f0693a314634506c87ee3f8699691195585e4e0b9070a9e6a1c2"
+  },
+  "bootstrap_resamples": 10000,
+  "bootstrap_base_seed": 20260831,
+  "bootstrap_confidence_level": 0.95,
+  "ape_tie_tolerance": 1e-12,
+  "core_detailed_pairs": 3600,
+  "core_summary_groups": 76,
+  "history_summary_groups": 324,
+  "prior_summary_groups": 216,
+  "bootstrap_summary_groups": 616,
+  "treaty_detailed_pairs": 450,
+  "treaty_summary_groups": 9,
+  "total_reported_comparison_groups": 625,
+  "elapsed_seconds": 5.353147000001627
+}

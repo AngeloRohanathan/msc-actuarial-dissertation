@@ -1,0 +1,26 @@
+check,passed,detail
+all_source_experiment_files_exist,True,sources=8
+source_result_keys_are_unique,True,validated during frozen-source loading
+paired_truth_is_identical_within_tolerance,True,max_abs=0.0
+no_cross_simulation_pairing,True,simulation_id is a mandatory merge key
+no_cross_scenario_pairing,True,scenario_id is a mandatory merge key
+no_cross_basis_pairing,True,basis is a mandatory merge key
+only_both_success_rows_enter_ape_comparisons,True,included=19800
+failures_remain_in_applicability_summaries,True,applicability_groups=616
+structural_non_applicability_not_treated_as_accuracy_failure,True,rows=5400
+paired_difference_reconciles_to_ape_a_minus_ape_b,True,
+win_loss_tie_counts_reconcile,True,
+bootstrap_sample_size_and_seed_are_fixed,True,"resamples=10000, base_seed=20260831"
+bootstrap_intervals_finite_when_valid_pairs_exist,True,groups=400
+no_accuracy_metric_when_no_valid_pairs_exist,True,empty_groups=216
+step29_treaty_comparison_uses_no_ape,True,raw treaty-mechanics differences only
+step29_paired_gross_ultimate_is_identical,True,
+source_frozen_files_are_unchanged,True,
+core_detail_output_keys_are_unique,True,
+core_summary_output_keys_are_unique,True,
+history_summary_output_keys_are_unique,True,
+prior_summary_output_keys_are_unique,True,
+treaty_detail_output_keys_are_unique,True,
+treaty_summary_output_keys_are_unique,True,
+all_prespecified_comparisons_are_present,True,comparison_ids=12
+bootstrap_is_reproducible,True,
