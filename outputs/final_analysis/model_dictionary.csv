@@ -1,0 +1,12 @@
+model,model_family,baseline_or_sensitivity,description,source_step,key_assumptions
+chain_ladder,classical development,baseline,Paid Chain Ladder reserve estimate.,16,Stable historical development factors.
+inflation_adjusted_chain_ladder,classical development,baseline,Chain Ladder applied after calendar inflation adjustment.,16,Specified inflation adjustment and stable development.
+cashflow_uplift,deterministic cash flow,baseline,Observed cash flows projected with the frozen uplift method.,16,Frozen cash-flow uplift specification.
+expected_loss,expected loss,baseline,Reserve from the independent Step 19 expected-loss prior.,20,Pricing prior independent of evaluation simulations.
+bornhuetter_ferguson_standard,Bornhuetter-Ferguson,baseline,Paid BF using the standard frozen development pattern.,21,Independent prior and standard paid proportion.
+bornhuetter_ferguson_break_aware,Bornhuetter-Ferguson,baseline,Paid BF using the frozen break-aware development pattern.,21,Independent prior and break-aware paid proportion.
+regularized_poisson,regularized GLM,baseline,Baseline regularized Poisson reserving model.,16,Log link and frozen rolling-diagonal validation.
+regularized_poisson_break_interaction,regularized GLM,baseline,Poisson model with calendar-regime by development interactions.,24,Frozen Step 24 interaction design.
+regularized_tweedie,regularized GLM,baseline,Tweedie reserving model with selected variance power.,25,Log link and frozen power/alpha grids.
+bornhuetter_ferguson_ceded_specific,Bornhuetter-Ferguson,sensitivity,Standard BF using the independently calibrated ceded pattern.,28,Ceded-only independently calibrated development pattern.
+bornhuetter_ferguson_break_aware_ceded_specific,Bornhuetter-Ferguson,sensitivity,Break-aware BF using the calibrated ceded pattern.,28,Ceded-only post-break calibrated development pattern.
