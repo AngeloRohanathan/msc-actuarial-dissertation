@@ -1,0 +1,9 @@
+check,passed,detail
+expected_baseline_gate_row_count,True,"actual=900, expected=900"
+both_frozen_bf_models_present,True,
+result_keys_are_unique,True,
+detail_keys_are_unique,True,
+standard_bf_reproduces_step21,True,
+break_aware_bf_reproduces_step21,True,
+accident_year_reserves_reconcile_to_portfolio,True,
+successful_reserves_are_finite_and_nonnegative,True,

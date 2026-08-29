@@ -1,0 +1,10 @@
+calibration_version,scenario_id,tail_type,inflation_scenario,structural_break_regime,calibration_simulations,contributing_accident_years,positive_ceded_accident_years,total_gross_ultimate,total_ceded_ultimate,gross_terminal_development_year,ceded_terminal_development_year,split_half_max_abs_cumulative_difference,split_half_stability_tolerance,available,calibration_seed_start,calibration_seed_end
+step28_ceded_development_v1,long_emerging_break,long,emerging,post_break,2000,14000,14000,2268975883960.837,747073679494.3429,14,14,0.0020929666337150543,0.02,True,91000001,91002000
+step28_ceded_development_v1,long_emerging_no_break,long,emerging,no_break,2000,30000,30000,4331489104457.359,1273888669625.9465,14,14,0.0009808884427140452,0.02,True,91000001,91002000
+step28_ceded_development_v1,long_shock_break,long,shock,post_break,2000,14000,14000,2462563879515.2153,900451747658.6122,14,14,0.0019377627828074395,0.02,True,91000001,91002000
+step28_ceded_development_v1,long_shock_no_break,long,shock,no_break,2000,30000,30000,4603147293307.802,1482911274096.518,14,14,0.0008970297985260167,0.02,True,91000001,91002000
+step28_ceded_development_v1,long_stable_break,long,stable,post_break,2000,14000,14000,2068607150393.2463,591316726645.0193,14,14,0.00222894941625984,0.02,True,91000001,91002000
+step28_ceded_development_v1,long_stable_no_break,long,stable,no_break,2000,30000,30000,4023240253277.7188,1036596463846.5605,14,14,0.0010121562753584445,0.02,True,91000001,91002000
+step28_ceded_development_v1,short_emerging_no_break,short,emerging,no_break,2000,30000,30000,3529260404636.783,760997060673.805,6,6,0.0007995829669763532,0.02,True,91000001,91002000
+step28_ceded_development_v1,short_shock_no_break,short,shock,no_break,2000,30000,30000,3608262300635.715,823448054520.3523,6,6,0.0007929968766215989,0.02,True,91000001,91002000
+step28_ceded_development_v1,short_stable_no_break,short,stable,no_break,2000,30000,30000,3448067459558.9062,703946606342.7651,6,6,0.0007334886146909136,0.02,True,91000001,91002000

@@ -1,0 +1,16 @@
+check,passed,detail
+expected_calibration_strata_present,True,"actual=9, expected=9"
+calibrated_pattern_keys_are_unique,True,
+all_proportions_are_finite,True,
+incremental_proportions_are_nonnegative,True,
+cumulative_proportions_are_bounded,True,
+cumulative_proportions_are_non_decreasing,True,
+incremental_and_cumulative_proportions_reconcile,True,
+terminal_proportion_is_one_at_natural_maturity,True,No truncation or renormalisation applied.
+payment_totals_reconcile_to_calibration_ultimates,True,
+calibration_and_evaluation_seeds_are_disjoint,True,calibration=91000001-91002000
+step19_prior_sha256_is_unchanged,True,sha256=06c23adae7ab9d96e0fd657d3af173a0bf05f91bd00e55d911c08d8459023912
+no_evaluation_file_used_for_calibration,True,"Inputs were frozen config, simulator, XoL code, and Step 19 seed schedule only."
+calibration_api_has_no_oracle_parameters,True,
+all_calibration_strata_have_adequate_support,True,"Requires >=1000 simulations, >=5000 AY observations, positive ceded volume, and split-half difference <=0.02."
+post_break_ceded_patterns_have_adequate_support,True,post_break_strata=3

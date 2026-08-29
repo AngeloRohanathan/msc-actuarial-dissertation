@@ -1,0 +1,10 @@
+tail_type,structural_break_regime,first_inflation_scenario,second_inflation_scenario,max_abs_cumulative_difference,materiality_threshold,material_difference,inflation_specific_patterns_retained
+long,no_break,emerging,shock,0.00699688472874338,0.02,False,True
+long,no_break,emerging,stable,0.021583750840897364,0.02,True,True
+long,no_break,shock,stable,0.022666915216831063,0.02,True,True
+long,post_break,emerging,shock,0.008192884070764905,0.02,False,True
+long,post_break,emerging,stable,0.02358608742939816,0.02,True,True
+long,post_break,shock,stable,0.02502616771624938,0.02,True,True
+short,no_break,emerging,shock,0.007934198559760075,0.02,False,True
+short,no_break,emerging,stable,0.007965473834524284,0.02,False,True
+short,no_break,shock,stable,0.01589967239428436,0.02,False,True

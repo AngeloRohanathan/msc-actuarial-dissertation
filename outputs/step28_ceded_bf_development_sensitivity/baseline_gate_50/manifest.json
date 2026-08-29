@@ -1,0 +1,18 @@
+{
+  "created_at": "2026-08-29T01:36:22.646712+01:00",
+  "step": 28,
+  "mode": "baseline-gate",
+  "simulations_per_scenario": 50,
+  "scenario_count": 9,
+  "basis": "ceded",
+  "result_rows": 900,
+  "detail_rows": 13500,
+  "step21_detail_source": "outputs\\step21_paid_bf\\final_50\\bf_by_accident_year.csv",
+  "step21_results_source": "outputs\\step21_paid_bf\\final_50\\bf_results.csv",
+  "pattern_file": null,
+  "evaluation_portfolios_resimulated": false,
+  "truth_used_for": "evaluation_only_after_estimation",
+  "baseline_reproduction_rtol": 1e-12,
+  "baseline_reproduction_atol": 1e-06,
+  "elapsed_seconds": 7.572763600001053
+}

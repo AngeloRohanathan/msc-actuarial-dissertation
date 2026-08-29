@@ -1,0 +1,23 @@
+check,passed,detail
+exact_expected_result_row_count,True,"actual=1800, expected=1800"
+all_nine_scenarios_present,True,actual=9
+fifty_simulations_per_scenario_and_model,True,
+ceded_basis_only,True,
+all_four_intended_variants_present,True,
+result_keys_are_unique,True,
+truth_is_identical_across_variants,True,
+paid_to_date_is_identical_across_variants,True,
+prior_is_identical_across_variants,True,
+only_development_pattern_inputs_change,True,All non-pattern estimator inputs are invariant.
+pattern_lookup_matches_tail_inflation_and_regime,True,
+pre_break_ays_use_no_break_ceded_pattern,True,rows=1200
+post_break_ays_use_post_break_ceded_pattern,True,rows=1050
+ages_beyond_calibrated_maturity_use_paid_one,True,rows=3300
+successful_estimates_are_finite_and_nonnegative,True,
+accident_year_reserves_reconcile_to_portfolio,True,
+baseline_variants_reproduce_frozen_step21,True,
+step19_prior_sha256_remains_unchanged,True,sha256=06c23adae7ab9d96e0fd657d3af173a0bf05f91bd00e55d911c08d8459023912
+no_evaluation_truth_enters_pattern_selection,True,Truth is merged only after each estimate is built.
+no_break_ceded_specific_variants_collapse,True,Identical predictions are expected by design.
+paired_pattern_comparison_is_complete,True,rows=18
+failure_reporting_is_complete,True,failures=0
