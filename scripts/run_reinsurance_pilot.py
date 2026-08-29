@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import pandas as pd
-
 from config import (
     MASTER_RANDOM_SEED,
     PILOT_DATA_DIR,

@@ -52,6 +52,8 @@ DEFAULT_OUTPUT_ROOT = Path(
 
 
 def parse_arguments() -> argparse.Namespace:
+    """Read Step 21 paid BF experiment options."""
+
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
@@ -161,6 +163,8 @@ def build_pattern_table() -> pd.DataFrame:
 
 
 def main() -> None:
+    """Run and validate the Step 21 paid BF experiment."""
+
     arguments = parse_arguments()
 
     if arguments.simulations < 1:

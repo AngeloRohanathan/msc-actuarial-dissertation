@@ -16,7 +16,6 @@ from src.paired_comparisons import (
     BOOTSTRAP_CONFIDENCE_LEVEL,
     BOOTSTRAP_RESAMPLES,
     BOOTSTRAP_SEED,
-    NOT_APPLICABLE_BY_DESIGN,
     construct_successful_pairs,
     construct_treaty_mechanics_pairs,
     deterministic_bootstrap_mean_ci,
@@ -764,6 +763,8 @@ establish that the misspecified prior is preferable or optimally calibrated.
 
 
 def main() -> None:
+    """Build the frozen Step 31 paired summaries without rerunning experiments."""
+
     if OUTPUT_DIRECTORY.exists():
         raise FileExistsError(OUTPUT_DIRECTORY)
 

@@ -18,7 +18,6 @@ from config import (
     EXPECTED_LOSS_ACCIDENT_YEARS,
     EXPECTED_LOSS_CALIBRATION_SEED_BASE,
     EXPECTED_LOSS_CALIBRATION_SIMULATIONS,
-    EXPECTED_LOSS_PRIOR_VERSION,
     PILOT_XOL_ATTACHMENT,
     PILOT_XOL_LIMIT,
     VALUATION_YEAR,
@@ -752,6 +751,8 @@ def run_evaluation(
 
 
 def main() -> None:
+    """Dispatch the requested Step 28 calibration, gate, or final run."""
+
     arguments = parse_arguments()
 
     if arguments.mode == "calibrate":

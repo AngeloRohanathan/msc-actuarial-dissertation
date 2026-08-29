@@ -18,7 +18,6 @@ from config import (
     END_TO_END_SCENARIOS,
     PILOT_XOL_ATTACHMENT,
     PILOT_XOL_LIMIT,
-    VALUATION_YEAR,
     validate_config,
 )
 from src.reinsurance import apply_xol_to_payments
@@ -55,6 +54,8 @@ DEFAULT_GATE_REPORT = (
 
 
 def parse_arguments() -> argparse.Namespace:
+    """Read Step 29 treaty sensitivity options."""
+
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--mode",
@@ -655,6 +656,8 @@ optimisation or a complete legal representation of a market clause.
 
 
 def main() -> None:
+    """Run and validate the requested Step 29 treaty sensitivity mode."""
+
     arguments = parse_arguments()
     validate_config()
 

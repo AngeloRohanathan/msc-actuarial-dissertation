@@ -133,6 +133,8 @@ criterion.
 
 
 def parse_arguments() -> argparse.Namespace:
+    """Read Step 26 experiment options."""
+
     parser = argparse.ArgumentParser(
         description="Run Step 26 historical data-window sensitivity."
     )
@@ -160,6 +162,8 @@ def parse_arguments() -> argparse.Namespace:
 def select_scenarios(
     requested_scenarios: list[str] | None,
 ) -> list[dict[str, Any]]:
+    """Select requested frozen scenarios while preserving configured order."""
+
     scenarios = [dict(scenario) for scenario in END_TO_END_SCENARIOS]
     if requested_scenarios is None:
         return scenarios
@@ -179,6 +183,8 @@ def select_scenarios(
 def build_scenario_inflation_index(
     inflation_scenario: str,
 ) -> dict[int, float]:
+    """Build the configured claims-inflation index for one scenario."""
+
     table = build_inflation_index(INFLATION_SCENARIOS[inflation_scenario])
     return table.set_index("calendar_year")["inflation_index"].to_dict()
 
@@ -187,6 +193,8 @@ def verify_pipeline_reconciliations(
     reinsured_payments: pd.DataFrame,
     triangle_outputs: dict[str, pd.DataFrame],
 ) -> bool:
+    """Check that gross, ceded, and retained triangle totals reconcile."""
+
     gross_total = float(reinsured_payments["nominal_gross_payment"].sum())
     ceded_total = float(reinsured_payments["nominal_ceded_payment"].sum())
     retained_total = float(
@@ -811,6 +819,8 @@ def build_history_window_comparisons(summary: pd.DataFrame) -> pd.DataFrame:
 
 
 def build_step26_failure_summary(results: pd.DataFrame) -> pd.DataFrame:
+    """Summarise failed or structurally skipped Step 26 model attempts."""
+
     failed = results.loc[~results["success"]]
     columns = [
         "scenario_id",
@@ -1080,6 +1090,8 @@ def build_step26_acceptance_report(
 
 
 def main() -> None:
+    """Run and validate the frozen Step 26 history-window sensitivity."""
+
     arguments = parse_arguments()
     ensure_directories()
     validate_config()

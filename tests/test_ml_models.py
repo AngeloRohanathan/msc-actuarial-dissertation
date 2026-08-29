@@ -2,7 +2,6 @@
 
 import numpy as np
 import pandas as pd
-import pytest
 
 from src.ml_models import (
     generate_rolling_diagonal_splits,

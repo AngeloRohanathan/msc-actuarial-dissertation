@@ -54,6 +54,8 @@ DEFAULT_OUTPUT_ROOT = Path(
 
 
 def parse_arguments() -> argparse.Namespace:
+    """Read Step 20 experiment options without changing frozen defaults."""
+
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
@@ -97,6 +99,8 @@ def parse_arguments() -> argparse.Namespace:
 def select_scenarios(
     requested: list[str] | None,
 ) -> list[dict[str, Any]]:
+    """Select requested frozen scenarios while preserving configured order."""
+
     scenarios = [
         dict(scenario)
         for scenario in END_TO_END_SCENARIOS
@@ -143,6 +147,8 @@ def find_column(
     frame: pd.DataFrame,
     candidates: list[str],
 ) -> str:
+    """Return the first available source column from an approved alias list."""
+
     for column in candidates:
         if column in frame.columns:
             return column
@@ -160,6 +166,8 @@ def get_seed(
     scenario_id: str,
     simulation_id: int,
 ) -> int:
+    """Recover the recorded evaluation seed for one frozen portfolio."""
+
     subset = baseline.loc[
         baseline[
             "scenario_id"
@@ -363,6 +371,8 @@ def aggregate_future_truth(
 
 
 def main() -> None:
+    """Run and validate the Step 20 Expected Loss experiment."""
+
     arguments = parse_arguments()
 
     if arguments.simulations < 1:

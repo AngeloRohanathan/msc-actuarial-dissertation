@@ -1,3 +1,0 @@
-scenario_id,basis,post_break_rows,mean_standard_bf_reserve,mean_break_aware_bf_reserve,mean_reserve_difference,total_reserve_difference,mean_paid_proportion_difference
-long_stable_break,ceded,14,23438649.789038967,17888338.08265317,5550311.7063858,77704363.8894012,0.1385714285714286
-long_stable_break,gross,14,77636444.28532049,57567673.73846576,20068770.546854716,280962787.65596604,0.1385714285714286

@@ -209,8 +209,10 @@ def validate_unique_keys(
 
 
 def _column_or_na(frame: pd.DataFrame, name: str) -> pd.Series:
+    """Return an existing column by reference, or an aligned nullable column."""
+
     if name in frame:
-        return frame[name].copy()
+        return frame[name]
     return pd.Series(pd.NA, index=frame.index, dtype="object")
 
 
@@ -441,7 +443,9 @@ def harmonise_accident_year_results(
             f"{source_file} is missing AY fields: {missing}."
         )
 
-    frame = source.copy()
+    # This harmoniser only reads the source; avoiding a full copy matters for
+    # the large frozen accident-year sensitivity tables.
+    frame = source
     out = pd.DataFrame(index=frame.index)
     out["analysis_type"] = analysis_type
     out["experiment_step"] = int(experiment_step)
@@ -531,7 +535,7 @@ def attach_portfolio_status_to_accident_year(
         "failure_type",
         "failure_message",
     ]
-    lookup = portfolio[keys + status_columns].copy()
+    lookup = portfolio[keys + status_columns]
     validate_unique_keys(lookup, keys, source_name="portfolio status lookup")
     detail = accident_year.drop(columns=status_columns)
     joined = detail.merge(lookup, on=keys, how="left", validate="many_to_one")

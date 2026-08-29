@@ -11,7 +11,6 @@ from collections.abc import Sequence
 import hashlib
 import inspect
 from pathlib import Path
-import time
 from typing import Any
 
 import numpy as np

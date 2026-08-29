@@ -33,6 +33,8 @@ OUTPUT_DIR = Path(
 
 
 def main() -> None:
+    """Build the Step 22 BF diagnostic tables from frozen Step 21 results."""
+
     if not INPUT_PATH.exists():
         raise FileNotFoundError(
             f"Missing Step 21 input: {INPUT_PATH}"

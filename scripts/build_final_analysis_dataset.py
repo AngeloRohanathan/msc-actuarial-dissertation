@@ -9,7 +9,6 @@ from pathlib import Path
 import time
 from typing import Any, Iterable
 
-import numpy as np
 import pandas as pd
 
 from src.final_results_consolidation import (
@@ -404,6 +403,8 @@ SOURCE_BY_ID = {spec.source_id: spec for spec in SOURCE_SPECS}
 
 
 def _read_and_audit_sources() -> tuple[dict[str, pd.DataFrame], dict[str, str]]:
+    """Load each frozen source once, validate its key, and record its hash."""
+
     frames: dict[str, pd.DataFrame] = {}
     hashes: dict[str, str] = {}
     for spec in SOURCE_SPECS:
@@ -421,6 +422,8 @@ def _read_and_audit_sources() -> tuple[dict[str, pd.DataFrame], dict[str, str]]:
 
 
 def _portfolio_tables(frames: dict[str, pd.DataFrame]) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Build the authoritative baseline table and sensitivity-aware master."""
+
     baseline_specs = [
         (
             "step16_baseline_results",
@@ -511,6 +514,8 @@ def _accident_year_table(
     frames: dict[str, pd.DataFrame],
     master: pd.DataFrame,
 ) -> pd.DataFrame:
+    """Harmonise compatible AY detail and attach frozen portfolio statuses."""
+
     specifications = [
         (
             "step20_expected_loss_ay",
@@ -562,6 +567,8 @@ def _accident_year_table(
 
 
 def _paired_table(frames: dict[str, pd.DataFrame]) -> pd.DataFrame:
+    """Combine the frozen Step 31 paired-summary families without recomputing."""
+
     parts = []
     for source_id in [
         "step31_core_paired_summary",
@@ -582,6 +589,8 @@ def _source_inventory(
     frames: dict[str, pd.DataFrame],
     hashes: dict[str, str],
 ) -> pd.DataFrame:
+    """Describe every frozen Step 32 source and its analytical role."""
+
     rows = []
     for spec in SOURCE_SPECS:
         frame = frames[spec.source_id]
@@ -612,6 +621,8 @@ def _source_inventory(
 
 
 def _model_dictionary() -> pd.DataFrame:
+    """Return the documented canonical model catalogue used by Step 32."""
+
     rows = [
         (
             "chain_ladder",
@@ -752,6 +763,8 @@ FIELD_DESCRIPTIONS = {
 
 
 def _field_unit(field: str) -> str:
+    """Map a consolidated field name to its documented reporting unit."""
+
     lower = field.lower()
     if lower in {
         "percentage_error",
@@ -813,6 +826,8 @@ def _field_unit(field: str) -> str:
 
 
 def _field_type(series: pd.Series) -> str:
+    """Map a pandas dtype to the compact data-dictionary type vocabulary."""
+
     if pd.api.types.is_bool_dtype(series):
         return "boolean"
     if pd.api.types.is_integer_dtype(series):
@@ -823,6 +838,8 @@ def _field_type(series: pd.Series) -> str:
 
 
 def _data_dictionary(datasets: dict[str, pd.DataFrame]) -> pd.DataFrame:
+    """Build field-level metadata for every Step 32 machine-readable output."""
+
     rows = []
     for dataset, frame in datasets.items():
         for field in frame.columns:
@@ -854,6 +871,8 @@ def _check(
     passed: object,
     detail: object = "",
 ) -> None:
+    """Append one normalized validation result row."""
+
     rows.append(
         {"check": name, "passed": bool(passed), "detail": str(detail)}
     )
@@ -874,6 +893,8 @@ def _validation_report(
     hashes_before: dict[str, str],
     hashes_after: dict[str, str],
 ) -> pd.DataFrame:
+    """Run the complete Step 32 provenance and numerical acceptance suite."""
+
     rows: list[dict[str, object]] = []
     metric_counts = reserve_metric_mismatch_counts(master)
     sensitivity_counts = validate_sensitivity_scope(master)
@@ -1117,6 +1138,8 @@ def _validation_report(
 
 
 def _method_note() -> str:
+    """Return the frozen-source and harmonisation note written with Step 32."""
+
     return """# Step 32 — Consolidated Final Analysis Dataset
 
 ## Purpose
@@ -1185,10 +1208,14 @@ coverage. `validation_report.csv` is the machine-readable acceptance record.
 
 
 def _write_csv(frame: pd.DataFrame, path: Path) -> None:
+    """Write one authoritative Step 32 table without an index column."""
+
     frame.to_csv(path, index=False)
 
 
 def main() -> None:
+    """Build and validate all Step 32 outputs from frozen source CSVs."""
+
     if OUTPUT_DIRECTORY.exists():
         raise FileExistsError(
             f"Step 32 output already exists and will not be overwritten: "

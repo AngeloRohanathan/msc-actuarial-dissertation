@@ -6,7 +6,6 @@ from collections.abc import (
     Mapping,
     Sequence,
 )
-import inspect
 
 import numpy as np
 import pandas as pd

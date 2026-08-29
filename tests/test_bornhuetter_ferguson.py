@@ -3,7 +3,6 @@
 import inspect
 
 import numpy as np
-import pandas as pd
 
 from config import (
     BF_BENCHMARK_INCREMENTAL_PATTERNS,

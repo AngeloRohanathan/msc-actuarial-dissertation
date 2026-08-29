@@ -19,7 +19,6 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from matplotlib.lines import Line2D
 import numpy as np
 import pandas as pd
 
@@ -30,12 +29,10 @@ from src.final_figures_tables import (
     FINAL_ANALYSIS_DIRECTORY,
     HISTORY_MODEL_ORDER,
     HISTORY_WINDOW_ORDER,
-    KEY_PAIRED_COMPARISON_IDS,
     MAIN_TABLE_FILES,
     ML_MODEL_ORDER,
     MODEL_LABELS,
     MODEL_ORDER,
-    PAIRED_COMPARISON_LABELS,
     PRIOR_MODEL_ORDER,
     PRIOR_MULTIPLIER_ORDER,
     SCENARIO_LABELS,
@@ -89,6 +86,8 @@ TREATY_LABELS = {"fixed_nominal": "Fixed nominal", "fully_indexed": "Fully index
 
 
 def _configure_matplotlib() -> None:
+    """Apply the fixed headless publication style used by all Step 33 figures."""
+
     plt.rcParams.update(
         {
             "font.family": "DejaVu Sans",
@@ -107,6 +106,8 @@ def _configure_matplotlib() -> None:
 
 
 def _save_figure(figure: plt.Figure, stem: str) -> tuple[Path, Path]:
+    """Save one figure as dissertation PNG and PDF variants."""
+
     png = FIGURE_DIRECTORY / f"{stem}.png"
     pdf = FIGURE_DIRECTORY / f"{stem}.pdf"
     figure.savefig(png, dpi=300, bbox_inches="tight", facecolor="white")
@@ -116,6 +117,8 @@ def _save_figure(figure: plt.Figure, stem: str) -> tuple[Path, Path]:
 
 
 def _scenario_tick_labels(scenarios: list[str]) -> list[str]:
+    """Return compact multi-line labels in the approved scenario vocabulary."""
+
     return [SCENARIO_LABELS[scenario].replace(" / ", "\n") for scenario in scenarios]
 
 
@@ -129,6 +132,8 @@ def _plot_heatmap(
     cmap: str,
     annotate: bool,
 ) -> Any:
+    """Render a consistently ordered heatmap from frozen backing data."""
+
     image = axis.imshow(matrix.to_numpy(dtype=float), aspect="auto", cmap=cmap, vmin=vmin, vmax=vmax)
     axis.set_title(title, loc="left", fontweight="bold")
     axis.set_xticks(range(len(matrix.columns)))
@@ -153,6 +158,8 @@ def _plot_heatmap(
 
 
 def _figure01(backing: pd.DataFrame) -> tuple[Path, Path]:
+    """Create the gross and ceded baseline-model MAPE heatmaps."""
+
     gross = backing.loc[backing["basis"].eq("gross")].pivot(
         index="model", columns="scenario_id", values="mean_absolute_percentage_error_pct"
     ).reindex(index=MODEL_ORDER, columns=SCENARIO_ORDER)
@@ -182,6 +189,8 @@ def _figure01(backing: pd.DataFrame) -> tuple[Path, Path]:
 
 
 def _figure02(backing: pd.DataFrame) -> tuple[Path, Path]:
+    """Create the model applicability and success-rate figure."""
+
     figure = plt.figure(figsize=(10, 9))
     grid = figure.add_gridspec(
         2,
@@ -223,6 +232,8 @@ def _grouped_bars(
     value: str,
     title: str,
 ) -> None:
+    """Draw consistently offset model bars for a Step 33 comparison panel."""
+
     x = np.arange(len(categories), dtype=float)
     width = 0.78 / len(series)
     for index, model in enumerate(series):
@@ -252,6 +263,8 @@ def _grouped_bars(
 
 
 def _figure03(backing: pd.DataFrame) -> tuple[Path, Path]:
+    """Create the ML structural-break comparison figure."""
+
     figure, axes = plt.subplots(1, 2, figsize=(10, 4.8), sharey=True)
     for axis, basis, panel in zip(axes, ["gross", "ceded"], ["A", "B"]):
         _grouped_bars(
@@ -271,6 +284,8 @@ def _figure03(backing: pd.DataFrame) -> tuple[Path, Path]:
 
 
 def _figure04(backing: pd.DataFrame) -> tuple[Path, Path]:
+    """Plot frozen paired APE differences and bootstrap intervals."""
+
     plot = backing.copy().reset_index(drop=True)
     labels = [
         f"{row.comparison_label}\n{row.scenario_label.replace('Long / ', '')}"
@@ -311,6 +326,8 @@ def _figure04(backing: pd.DataFrame) -> tuple[Path, Path]:
 
 
 def _figure05(backing: pd.DataFrame) -> tuple[Path, Path]:
+    """Create the ceded-specific BF development sensitivity figure."""
+
     figure, axis = plt.subplots(figsize=(10, 5.3))
     _grouped_bars(
         axis,
@@ -341,6 +358,8 @@ def _figure05(backing: pd.DataFrame) -> tuple[Path, Path]:
 
 
 def _figure06(accuracy: pd.DataFrame, applicability: pd.DataFrame) -> tuple[Path, Path]:
+    """Create the history-window accuracy and applicability panels."""
+
     figure, axes = plt.subplots(1, 2, figsize=(10, 4.8))
     axis = axes[0]
     marker_lookup = dict(zip(ML_MODEL_ORDER, ["o", "s", "^"]))
@@ -415,6 +434,8 @@ def _figure06(accuracy: pd.DataFrame, applicability: pd.DataFrame) -> tuple[Path
 
 
 def _figure07(backing: pd.DataFrame) -> tuple[Path, Path]:
+    """Create the expected-loss and BF prior sensitivity figure."""
+
     figure, axes = plt.subplots(1, 2, figsize=(10, 4.5), sharey=True)
     for axis, basis, panel in zip(axes, ["gross", "ceded"], ["A", "B"]):
         for index, model in enumerate(PRIOR_MODEL_ORDER):
@@ -445,6 +466,8 @@ def _figure07(backing: pd.DataFrame) -> tuple[Path, Path]:
 
 
 def _figure08(backing: pd.DataFrame) -> tuple[Path, Path]:
+    """Create the fixed-versus-indexed treaty mechanics figure."""
+
     figure, axis = plt.subplots(figsize=(10, 4.8))
     x = np.arange(len(SCENARIO_ORDER))
     for variant, marker, linestyle in [
@@ -478,6 +501,8 @@ def _figure08(backing: pd.DataFrame) -> tuple[Path, Path]:
 
 
 def _table04(backing: pd.DataFrame) -> pd.DataFrame:
+    """Select and format the main ceded BF sensitivity table."""
+
     pivot = backing.pivot(
         index=["scenario_id", "scenario_label"],
         columns="model",
@@ -503,6 +528,8 @@ def _table04(backing: pd.DataFrame) -> pd.DataFrame:
 
 
 def _table06(backing: pd.DataFrame) -> pd.DataFrame:
+    """Select and format the main prior sensitivity table."""
+
     pivot = backing.pivot(
         index=["model", "model_label", "basis"],
         columns="prior_multiplier",
@@ -525,6 +552,8 @@ def _appendix_tables(
     bf: pd.DataFrame,
     treaty: pd.DataFrame,
 ) -> dict[str, pd.DataFrame]:
+    """Build the six detailed appendix candidates from Step 32 data."""
+
     master = sources["master"]
     history = master.loc[master["analysis_type"].eq("history_sensitivity")]
     history_detail = history.groupby(
@@ -597,6 +626,8 @@ def _message_values(
     prior: pd.DataFrame,
     treaty_table_data: pd.DataFrame,
 ) -> dict[str, str]:
+    """Derive concise metadata messages from the generated main tables."""
+
     best_gross = table01.loc[table01["gross_mape_pct"].idxmin()]
     best_ceded = table01.loc[table01["ceded_mape_pct"].idxmin()]
     ceded_ml = ml.loc[ml["basis"].eq("ceded")].groupby("model")[
@@ -658,6 +689,8 @@ def _message_values(
 def _output_index(
     messages: dict[str, str],
 ) -> pd.DataFrame:
+    """Build the authoritative index linking outputs to their backing CSVs."""
+
     rows = [
         {
             "output_id": "figure01",
@@ -788,6 +821,8 @@ def _validation_report(
     appendix_files: list[Path],
     paired_selection: pd.DataFrame,
 ) -> pd.DataFrame:
+    """Validate source stability, output counts, paths, and paired selection."""
+
     checks: list[dict[str, object]] = []
 
     def add(name: str, passed: object, detail: object = "") -> None:
@@ -835,6 +870,8 @@ def _validation_report(
 
 
 def _method_note() -> str:
+    """Return the presentation-only method note written with Step 33."""
+
     scenario_mapping = "\n".join(f"- `{scenario}` → {SCENARIO_LABELS[scenario]}" for scenario in SCENARIO_ORDER)
     return f"""# Step 33 — Final Dissertation Figures and Tables
 
@@ -893,6 +930,8 @@ appear in the submitted dissertation.
 
 
 def main() -> None:
+    """Build and validate all dissertation-facing Step 33 artifacts."""
+
     for path in [FIGURE_DIRECTORY, TABLE_DIRECTORY, APPENDIX_DIRECTORY, OUTPUT_INDEX_PATH, VALIDATION_PATH, METHOD_NOTE_PATH, MANIFEST_PATH]:
         if path.exists():
             raise FileExistsError(f"Step 33 output already exists and will not be overwritten: {path}")
