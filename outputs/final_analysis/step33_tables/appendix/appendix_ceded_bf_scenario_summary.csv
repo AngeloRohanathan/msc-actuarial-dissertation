@@ -1,0 +1,37 @@
+scenario_id,model,basis,attempted_fits,successful_fits,success_rate_pct,mean_percentage_error_pct,mean_absolute_percentage_error_pct,scenario_label,model_label
+short_stable_no_break,bornhuetter_ferguson_standard,ceded,50,50,100.0,-54.30129061064683,54.30129061064683,Short / Stable,Standard BF
+short_stable_no_break,bornhuetter_ferguson_ceded_specific,ceded,50,50,100.0,6.269932257423486,13.073480251433685,Short / Stable,Ceded-Specific BF
+short_stable_no_break,bornhuetter_ferguson_break_aware,ceded,50,50,100.0,-54.30129061064683,54.30129061064683,Short / Stable,Break-Aware BF
+short_stable_no_break,bornhuetter_ferguson_break_aware_ceded_specific,ceded,50,50,100.0,6.269932257423486,13.073480251433685,Short / Stable,BA Ceded-Specific BF
+short_emerging_no_break,bornhuetter_ferguson_standard,ceded,50,50,100.0,-55.42616231433485,55.42616231433485,Short / Emerging,Standard BF
+short_emerging_no_break,bornhuetter_ferguson_ceded_specific,ceded,50,50,100.0,4.1099235507745355,11.126378622341754,Short / Emerging,Ceded-Specific BF
+short_emerging_no_break,bornhuetter_ferguson_break_aware,ceded,50,50,100.0,-55.42616231433485,55.42616231433485,Short / Emerging,Break-Aware BF
+short_emerging_no_break,bornhuetter_ferguson_break_aware_ceded_specific,ceded,50,50,100.0,4.1099235507745355,11.126378622341754,Short / Emerging,BA Ceded-Specific BF
+short_shock_no_break,bornhuetter_ferguson_standard,ceded,50,50,100.0,-56.25406514456132,56.25406514456132,Short / Shock,Standard BF
+short_shock_no_break,bornhuetter_ferguson_ceded_specific,ceded,50,50,100.0,2.207809907143178,9.805764945647118,Short / Shock,Ceded-Specific BF
+short_shock_no_break,bornhuetter_ferguson_break_aware,ceded,50,50,100.0,-56.25406514456132,56.25406514456132,Short / Shock,Break-Aware BF
+short_shock_no_break,bornhuetter_ferguson_break_aware_ceded_specific,ceded,50,50,100.0,2.207809907143178,9.805764945647118,Short / Shock,BA Ceded-Specific BF
+long_stable_no_break,bornhuetter_ferguson_standard,ceded,50,50,100.0,-39.0002105153408,39.0002105153408,Long / Stable,Standard BF
+long_stable_no_break,bornhuetter_ferguson_ceded_specific,ceded,50,50,100.0,2.312821408472239,7.364594769621686,Long / Stable,Ceded-Specific BF
+long_stable_no_break,bornhuetter_ferguson_break_aware,ceded,50,50,100.0,-39.0002105153408,39.0002105153408,Long / Stable,Break-Aware BF
+long_stable_no_break,bornhuetter_ferguson_break_aware_ceded_specific,ceded,50,50,100.0,2.312821408472239,7.364594769621686,Long / Stable,BA Ceded-Specific BF
+long_emerging_no_break,bornhuetter_ferguson_standard,ceded,50,50,100.0,-38.475049501830355,38.475049501830355,Long / Emerging,Standard BF
+long_emerging_no_break,bornhuetter_ferguson_ceded_specific,ceded,50,50,100.0,1.5113766720917854,6.554134291190044,Long / Emerging,Ceded-Specific BF
+long_emerging_no_break,bornhuetter_ferguson_break_aware,ceded,50,50,100.0,-38.475049501830355,38.475049501830355,Long / Emerging,Break-Aware BF
+long_emerging_no_break,bornhuetter_ferguson_break_aware_ceded_specific,ceded,50,50,100.0,1.5113766720917854,6.554134291190044,Long / Emerging,BA Ceded-Specific BF
+long_shock_no_break,bornhuetter_ferguson_standard,ceded,50,50,100.0,-38.78976904397377,38.78976904397377,Long / Shock,Standard BF
+long_shock_no_break,bornhuetter_ferguson_ceded_specific,ceded,50,50,100.0,-0.01352790736757845,6.03032896204903,Long / Shock,Ceded-Specific BF
+long_shock_no_break,bornhuetter_ferguson_break_aware,ceded,50,50,100.0,-38.78976904397377,38.78976904397377,Long / Shock,Break-Aware BF
+long_shock_no_break,bornhuetter_ferguson_break_aware_ceded_specific,ceded,50,50,100.0,-0.01352790736757845,6.03032896204903,Long / Shock,BA Ceded-Specific BF
+long_stable_break,bornhuetter_ferguson_standard,ceded,50,50,100.0,-29.796976089153787,29.796976089153787,Long / Stable + Break,Standard BF
+long_stable_break,bornhuetter_ferguson_ceded_specific,ceded,50,50,100.0,18.653180473582093,18.766531023786452,Long / Stable + Break,Ceded-Specific BF
+long_stable_break,bornhuetter_ferguson_break_aware,ceded,50,50,100.0,-45.65480024743361,45.65480024743361,Long / Stable + Break,Break-Aware BF
+long_stable_break,bornhuetter_ferguson_break_aware_ceded_specific,ceded,50,50,100.0,2.6006000400853835,7.7247893481141015,Long / Stable + Break,BA Ceded-Specific BF
+long_emerging_break,bornhuetter_ferguson_standard,ceded,50,50,100.0,-30.132740820250845,30.132740820250845,Long / Emerging + Break,Standard BF
+long_emerging_break,bornhuetter_ferguson_ceded_specific,ceded,50,50,100.0,15.88541671370389,16.04327092748193,Long / Emerging + Break,Ceded-Specific BF
+long_emerging_break,bornhuetter_ferguson_break_aware,ceded,50,50,100.0,-45.14987093013515,45.14987093013515,Long / Emerging + Break,Break-Aware BF
+long_emerging_break,bornhuetter_ferguson_break_aware_ceded_specific,ceded,50,50,100.0,1.7361196398547698,6.748986049889644,Long / Emerging + Break,BA Ceded-Specific BF
+long_shock_break,bornhuetter_ferguson_standard,ceded,50,50,100.0,-30.838827777996006,30.838827777996006,Long / Shock + Break,Standard BF
+long_shock_break,bornhuetter_ferguson_ceded_specific,ceded,50,50,100.0,12.676830342378302,12.926369856333046,Long / Shock + Break,Ceded-Specific BF
+long_shock_break,bornhuetter_ferguson_break_aware,ceded,50,50,100.0,-45.33903085717448,45.33903085717448,Long / Shock + Break,Break-Aware BF
+long_shock_break,bornhuetter_ferguson_break_aware_ceded_specific,ceded,50,50,100.0,-0.5883918536481264,6.096330781524509,Long / Shock + Break,BA Ceded-Specific BF

@@ -1,0 +1,24 @@
+check,passed,detail
+all_expected_outputs_created,True,40
+every_main_output_has_backing_data,True,15
+all_backing_datasets_trace_to_step32,True,11
+figure_table_summaries_reconcile_to_master,True,summaries built directly from loaded Step 32 frames
+no_experiment_was_rerun,True,presentation-only code path
+no_frozen_source_changed,True,changed=0
+all_main_outputs_nonempty,True,
+no_duplicate_figure_or_table_paths,True,
+selected_comparisons_preexisted_in_step31,True,15
+all_step32_source_hashes_unchanged,True,11
+eight_main_figures_created,True,8
+seven_main_tables_created,True,7
+six_appendix_tables_created,True,6
+no_treaty_estimator_ape,True,
+nonapplicable_rows_have_no_accuracy,True,
+paired_ci_labels_use_frozen_rules,True,
+percentage_units_are_distinct,True,
+output_index_references_valid_files,True,
+output_ids_unique,True,
+step32_validation_was_fully_passed,True,41
+step32_is_sole_analytical_source,True,11
+scenario_order_complete,True,9
+model_order_complete,True,9

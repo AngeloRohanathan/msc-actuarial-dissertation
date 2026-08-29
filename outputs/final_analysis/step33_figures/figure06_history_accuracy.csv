@@ -1,0 +1,49 @@
+model,basis,history_window_years,attempted_fits,successful_fits,success_rate_pct,mean_percentage_error_pct,mean_absolute_percentage_error_pct,model_label
+chain_ladder,gross,15,450,450,100.0,18.99777503115674,25.899654229852235,Chain Ladder
+inflation_adjusted_chain_ladder,gross,15,450,450,100.0,24.960421749834758,29.235339438844026,Inflation-Adjusted CL
+cashflow_uplift,gross,15,450,450,100.0,25.80699181602329,29.418039228944455,Cashflow Uplift
+regularized_poisson,gross,15,450,450,100.0,15.811331873727374,23.650931953030305,Regularized Poisson
+regularized_poisson_break_interaction,gross,15,450,450,100.0,13.81963235630403,21.659220195368956,Poisson + Break Interaction
+regularized_tweedie,gross,15,450,450,100.0,14.325714611477464,22.812434325215847,Tweedie
+chain_ladder,gross,10,450,150,33.33333333333333,-0.8949847088812658,8.504724719477338,Chain Ladder
+inflation_adjusted_chain_ladder,gross,10,450,150,33.33333333333333,0.740854410972105,8.331689758843734,Inflation-Adjusted CL
+cashflow_uplift,gross,10,450,150,33.33333333333333,1.801805421228632,8.595531107557603,Cashflow Uplift
+regularized_poisson,gross,10,450,450,100.0,49.70022013043084,52.931883938177585,Regularized Poisson
+regularized_poisson_break_interaction,gross,10,450,450,100.0,59.70374727058771,62.93541149347414,Poisson + Break Interaction
+regularized_tweedie,gross,10,450,450,100.0,46.21812707748647,50.14601900066439,Tweedie
+chain_ladder,gross,7,450,150,33.33333333333333,-0.3196179114176746,9.876746437234278,Chain Ladder
+inflation_adjusted_chain_ladder,gross,7,450,150,33.33333333333333,0.20140201067215296,9.983683629220096,Inflation-Adjusted CL
+cashflow_uplift,gross,7,450,150,33.33333333333333,2.4152983590377772,10.470678804073165,Cashflow Uplift
+regularized_poisson,gross,7,450,0,0.0,,,Regularized Poisson
+regularized_poisson_break_interaction,gross,7,450,0,0.0,,,Poisson + Break Interaction
+regularized_tweedie,gross,7,450,0,0.0,,,Tweedie
+chain_ladder,gross,5,450,0,0.0,,,Chain Ladder
+inflation_adjusted_chain_ladder,gross,5,450,0,0.0,,,Inflation-Adjusted CL
+cashflow_uplift,gross,5,450,0,0.0,,,Cashflow Uplift
+regularized_poisson,gross,5,450,0,0.0,,,Regularized Poisson
+regularized_poisson_break_interaction,gross,5,450,0,0.0,,,Poisson + Break Interaction
+regularized_tweedie,gross,5,450,0,0.0,,,Tweedie
+chain_ladder,ceded,15,450,172,38.22222222222222,14.507020020651632,33.94556713545,Chain Ladder
+inflation_adjusted_chain_ladder,ceded,15,450,172,38.22222222222222,18.450077113478716,36.31202607532921,Inflation-Adjusted CL
+cashflow_uplift,ceded,15,450,172,38.22222222222222,19.61468170591593,36.36694337004463,Cashflow Uplift
+regularized_poisson,ceded,15,450,450,100.0,38.93211893447614,52.59676739286626,Regularized Poisson
+regularized_poisson_break_interaction,ceded,15,450,450,100.0,24.66529379802892,39.8798248648875,Poisson + Break Interaction
+regularized_tweedie,ceded,15,450,450,100.0,29.609402032610006,49.48671896729215,Tweedie
+chain_ladder,ceded,10,450,150,33.33333333333333,0.5027720355139326,22.612735181138003,Chain Ladder
+inflation_adjusted_chain_ladder,ceded,10,450,150,33.33333333333333,1.6320968418675037,22.655652739194796,Inflation-Adjusted CL
+cashflow_uplift,ceded,10,450,150,33.33333333333333,3.45467829796052,23.05780729626629,Cashflow Uplift
+regularized_poisson,ceded,10,450,450,100.0,189.228394822395,198.45852101523116,Regularized Poisson
+regularized_poisson_break_interaction,ceded,10,450,450,100.0,139.6546160439935,148.8847420894641,Poisson + Break Interaction
+regularized_tweedie,ceded,10,450,450,100.0,142.41747407781375,156.14333890580153,Tweedie
+chain_ladder,ceded,7,450,150,33.33333333333333,2.3310762585379057,25.008221157728105,Chain Ladder
+inflation_adjusted_chain_ladder,ceded,7,450,150,33.33333333333333,2.3464917759225643,25.244781624857644,Inflation-Adjusted CL
+cashflow_uplift,ceded,7,450,150,33.33333333333333,5.367839109916548,25.7339945500766,Cashflow Uplift
+regularized_poisson,ceded,7,450,0,0.0,,,Regularized Poisson
+regularized_poisson_break_interaction,ceded,7,450,0,0.0,,,Poisson + Break Interaction
+regularized_tweedie,ceded,7,450,0,0.0,,,Tweedie
+chain_ladder,ceded,5,450,0,0.0,,,Chain Ladder
+inflation_adjusted_chain_ladder,ceded,5,450,0,0.0,,,Inflation-Adjusted CL
+cashflow_uplift,ceded,5,450,0,0.0,,,Cashflow Uplift
+regularized_poisson,ceded,5,450,0,0.0,,,Regularized Poisson
+regularized_poisson_break_interaction,ceded,5,450,0,0.0,,,Poisson + Break Interaction
+regularized_tweedie,ceded,5,450,0,0.0,,,Tweedie

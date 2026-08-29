@@ -1,0 +1,82 @@
+scenario_id,model,basis,attempted_fits,successful_fits,success_rate_pct,mean_percentage_error_pct,mean_absolute_percentage_error_pct,scenario_label,model_label
+short_stable_no_break,chain_ladder,ceded,50,50,100.0,2.959760301751084,22.529075259628275,Short / Stable,Chain Ladder
+short_stable_no_break,inflation_adjusted_chain_ladder,ceded,50,50,100.0,3.1931358327809023,22.753330317147256,Short / Stable,Inflation-Adjusted CL
+short_stable_no_break,cashflow_uplift,ceded,50,50,100.0,2.9597603017510834,22.52907525962828,Short / Stable,Cashflow Uplift
+short_stable_no_break,expected_loss,ceded,50,50,100.0,71.27840229217402,71.27840229217402,Short / Stable,Expected Loss
+short_stable_no_break,bornhuetter_ferguson_standard,ceded,50,50,100.0,-54.30129061064683,54.30129061064683,Short / Stable,Standard BF
+short_stable_no_break,bornhuetter_ferguson_break_aware,ceded,50,50,100.0,-54.30129061064683,54.30129061064683,Short / Stable,Break-Aware BF
+short_stable_no_break,regularized_poisson,ceded,50,50,100.0,8.60982362635468,19.759507094973454,Short / Stable,Regularized Poisson
+short_stable_no_break,regularized_poisson_break_interaction,ceded,50,50,100.0,8.609823224687991,19.75950669449554,Short / Stable,Poisson + Break Interaction
+short_stable_no_break,regularized_tweedie,ceded,50,50,100.0,10.247438449905951,23.823656460110513,Short / Stable,Tweedie
+short_emerging_no_break,chain_ladder,ceded,50,50,100.0,-1.5830373753034517,20.666275354635363,Short / Emerging,Chain Ladder
+short_emerging_no_break,inflation_adjusted_chain_ladder,ceded,50,50,100.0,0.6227243931925305,20.914821504561537,Short / Emerging,Inflation-Adjusted CL
+short_emerging_no_break,cashflow_uplift,ceded,50,50,100.0,1.5804578619879226,20.805132907598008,Short / Emerging,Cashflow Uplift
+short_emerging_no_break,expected_loss,ceded,50,50,100.0,56.62678237630269,56.62678237630269,Short / Emerging,Expected Loss
+short_emerging_no_break,bornhuetter_ferguson_standard,ceded,50,50,100.0,-55.42616231433485,55.42616231433485,Short / Emerging,Standard BF
+short_emerging_no_break,bornhuetter_ferguson_break_aware,ceded,50,50,100.0,-55.42616231433485,55.42616231433485,Short / Emerging,Break-Aware BF
+short_emerging_no_break,regularized_poisson,ceded,50,50,100.0,1.698703817875957,20.370924758574013,Short / Emerging,Regularized Poisson
+short_emerging_no_break,regularized_poisson_break_interaction,ceded,50,50,100.0,1.6987041094670687,20.37092503756197,Short / Emerging,Poisson + Break Interaction
+short_emerging_no_break,regularized_tweedie,ceded,50,50,100.0,0.6955766953366534,19.84516767596454,Short / Emerging,Tweedie
+short_shock_no_break,chain_ladder,ceded,50,50,100.0,-3.6419736265183276,19.992746320777236,Short / Shock,Chain Ladder
+short_shock_no_break,inflation_adjusted_chain_ladder,ceded,50,50,100.0,-0.5076142538442625,19.80317622074851,Short / Shock,Inflation-Adjusted CL
+short_shock_no_break,cashflow_uplift,ceded,50,50,100.0,1.8318423303257634,20.024225722916693,Short / Shock,Cashflow Uplift
+short_shock_no_break,expected_loss,ceded,50,50,100.0,44.67434903490267,44.8696053940665,Short / Shock,Expected Loss
+short_shock_no_break,bornhuetter_ferguson_standard,ceded,50,50,100.0,-56.25406514456132,56.25406514456132,Short / Shock,Standard BF
+short_shock_no_break,bornhuetter_ferguson_break_aware,ceded,50,50,100.0,-56.25406514456132,56.25406514456132,Short / Shock,Break-Aware BF
+short_shock_no_break,regularized_poisson,ceded,50,50,100.0,-1.7092845247194035,16.009741622866144,Short / Shock,Regularized Poisson
+short_shock_no_break,regularized_poisson_break_interaction,ceded,50,50,100.0,-1.7092844877668887,16.00974160738558,Short / Shock,Poisson + Break Interaction
+short_shock_no_break,regularized_tweedie,ceded,50,50,100.0,-2.144673196306415,18.227178466586334,Short / Shock,Tweedie
+long_stable_no_break,chain_ladder,ceded,50,0,0.0,,,Long / Stable,Chain Ladder
+long_stable_no_break,inflation_adjusted_chain_ladder,ceded,50,0,0.0,,,Long / Stable,Inflation-Adjusted CL
+long_stable_no_break,cashflow_uplift,ceded,50,0,0.0,,,Long / Stable,Cashflow Uplift
+long_stable_no_break,expected_loss,ceded,50,50,100.0,7.125006206259725,11.00374900788119,Long / Stable,Expected Loss
+long_stable_no_break,bornhuetter_ferguson_standard,ceded,50,50,100.0,-39.0002105153408,39.0002105153408,Long / Stable,Standard BF
+long_stable_no_break,bornhuetter_ferguson_break_aware,ceded,50,50,100.0,-39.0002105153408,39.0002105153408,Long / Stable,Break-Aware BF
+long_stable_no_break,regularized_poisson,ceded,50,50,100.0,20.377506833051367,35.63894822881193,Long / Stable,Regularized Poisson
+long_stable_no_break,regularized_poisson_break_interaction,ceded,50,50,100.0,20.37750683879713,35.638948233774,Long / Stable,Poisson + Break Interaction
+long_stable_no_break,regularized_tweedie,ceded,50,50,100.0,14.41893086190651,33.910848948269944,Long / Stable,Tweedie
+long_emerging_no_break,chain_ladder,ceded,50,0,0.0,,,Long / Emerging,Chain Ladder
+long_emerging_no_break,inflation_adjusted_chain_ladder,ceded,50,0,0.0,,,Long / Emerging,Inflation-Adjusted CL
+long_emerging_no_break,cashflow_uplift,ceded,50,0,0.0,,,Long / Emerging,Cashflow Uplift
+long_emerging_no_break,expected_loss,ceded,50,50,100.0,5.75957669405143,9.489885353018945,Long / Emerging,Expected Loss
+long_emerging_no_break,bornhuetter_ferguson_standard,ceded,50,50,100.0,-38.475049501830355,38.475049501830355,Long / Emerging,Standard BF
+long_emerging_no_break,bornhuetter_ferguson_break_aware,ceded,50,50,100.0,-38.475049501830355,38.475049501830355,Long / Emerging,Break-Aware BF
+long_emerging_no_break,regularized_poisson,ceded,50,50,100.0,24.06843031557126,39.58659946256034,Long / Emerging,Regularized Poisson
+long_emerging_no_break,regularized_poisson_break_interaction,ceded,50,50,100.0,24.068430305582364,39.586599452941144,Long / Emerging,Poisson + Break Interaction
+long_emerging_no_break,regularized_tweedie,ceded,50,50,100.0,8.932259542636405,33.471785044563205,Long / Emerging,Tweedie
+long_shock_no_break,chain_ladder,ceded,50,0,0.0,,,Long / Shock,Chain Ladder
+long_shock_no_break,inflation_adjusted_chain_ladder,ceded,50,0,0.0,,,Long / Shock,Inflation-Adjusted CL
+long_shock_no_break,cashflow_uplift,ceded,50,0,0.0,,,Long / Shock,Cashflow Uplift
+long_shock_no_break,expected_loss,ceded,50,50,100.0,5.019568869015678,8.580187778594057,Long / Shock,Expected Loss
+long_shock_no_break,bornhuetter_ferguson_standard,ceded,50,50,100.0,-38.78976904397377,38.78976904397377,Long / Shock,Standard BF
+long_shock_no_break,bornhuetter_ferguson_break_aware,ceded,50,50,100.0,-38.78976904397377,38.78976904397377,Long / Shock,Break-Aware BF
+long_shock_no_break,regularized_poisson,ceded,50,50,100.0,8.976174913683344,27.397423448741836,Long / Shock,Regularized Poisson
+long_shock_no_break,regularized_poisson_break_interaction,ceded,50,50,100.0,8.976175547252575,27.397424086382784,Long / Shock,Poisson + Break Interaction
+long_shock_no_break,regularized_tweedie,ceded,50,50,100.0,-6.546233306380373,28.429622073418127,Long / Shock,Tweedie
+long_stable_break,chain_ladder,ceded,50,7,14.000000000000002,121.84520075098894,121.84520075098894,Long / Stable + Break,Chain Ladder
+long_stable_break,inflation_adjusted_chain_ladder,ceded,50,7,14.000000000000002,131.91748054339934,131.91748054339934,Long / Stable + Break,Inflation-Adjusted CL
+long_stable_break,cashflow_uplift,ceded,50,7,14.000000000000002,121.84520075098894,121.84520075098894,Long / Stable + Break,Cashflow Uplift
+long_stable_break,expected_loss,ceded,50,50,100.0,9.609257347373317,13.493135547022145,Long / Stable + Break,Expected Loss
+long_stable_break,bornhuetter_ferguson_standard,ceded,50,50,100.0,-29.796976089153787,29.796976089153787,Long / Stable + Break,Standard BF
+long_stable_break,bornhuetter_ferguson_break_aware,ceded,50,50,100.0,-45.65480024743361,45.65480024743361,Long / Stable + Break,Break-Aware BF
+long_stable_break,regularized_poisson,ceded,50,50,100.0,110.52366178415977,110.52366178415977,Long / Stable + Break,Regularized Poisson
+long_stable_break,regularized_poisson_break_interaction,ceded,50,50,100.0,58.231152698167854,60.29453247705186,Long / Stable + Break,Poisson + Break Interaction
+long_stable_break,regularized_tweedie,ceded,50,50,100.0,103.65424266224758,103.72748887734355,Long / Stable + Break,Tweedie
+long_emerging_break,chain_ladder,ceded,50,7,14.000000000000002,101.60162863957966,101.60162863957966,Long / Emerging + Break,Chain Ladder
+long_emerging_break,inflation_adjusted_chain_ladder,ceded,50,7,14.000000000000002,122.81408642032662,122.81408642032662,Long / Emerging + Break,Inflation-Adjusted CL
+long_emerging_break,cashflow_uplift,ceded,50,7,14.000000000000002,122.28490846831713,122.28490846831713,Long / Emerging + Break,Cashflow Uplift
+long_emerging_break,expected_loss,ceded,50,50,100.0,7.638529929291128,11.557521295802424,Long / Emerging + Break,Expected Loss
+long_emerging_break,bornhuetter_ferguson_standard,ceded,50,50,100.0,-30.132740820250845,30.132740820250845,Long / Emerging + Break,Standard BF
+long_emerging_break,bornhuetter_ferguson_break_aware,ceded,50,50,100.0,-45.14987093013515,45.14987093013515,Long / Emerging + Break,Break-Aware BF
+long_emerging_break,regularized_poisson,ceded,50,50,100.0,119.20571841102044,119.20571841102044,Long / Emerging + Break,Regularized Poisson
+long_emerging_break,regularized_poisson_break_interaction,ceded,50,50,100.0,74.73836237865137,77.16297387350838,Long / Emerging + Break,Poisson + Break Interaction
+long_emerging_break,regularized_tweedie,ceded,50,50,100.0,104.85013271714479,105.46914325269877,Long / Emerging + Break,Tweedie
+long_shock_break,chain_ladder,ceded,50,8,16.0,136.18689468830132,136.18689468830132,Long / Shock + Break,Chain Ladder
+long_shock_break,inflation_adjusted_chain_ladder,ceded,50,8,16.0,156.94650368417922,156.94650368417922,Long / Shock + Break,Inflation-Adjusted CL
+long_shock_break,cashflow_uplift,ceded,50,8,16.0,169.21384729403206,169.21384729403206,Long / Shock + Break,Cashflow Uplift
+long_shock_break,expected_loss,ceded,50,50,100.0,6.4505348769705915,10.320734352298166,Long / Shock + Break,Expected Loss
+long_shock_break,bornhuetter_ferguson_standard,ceded,50,50,100.0,-30.838827777996006,30.838827777996006,Long / Shock + Break,Standard BF
+long_shock_break,bornhuetter_ferguson_break_aware,ceded,50,50,100.0,-45.33903085717448,45.33903085717448,Long / Shock + Break,Break-Aware BF
+long_shock_break,regularized_poisson,ceded,50,50,100.0,96.27443155431949,96.50452810391613,Long / Shock + Break,Regularized Poisson
+long_shock_break,regularized_poisson_break_interaction,ceded,50,50,100.0,50.479475654943734,53.54479781212886,Long / Shock + Break,Poisson + Break Interaction
+long_shock_break,regularized_tweedie,ceded,50,50,100.0,80.91845685965681,82.74562832941736,Long / Shock + Break,Tweedie

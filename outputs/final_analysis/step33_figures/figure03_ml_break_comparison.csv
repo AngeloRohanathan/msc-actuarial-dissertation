@@ -1,0 +1,19 @@
+scenario_id,model,basis,attempted_fits,successful_fits,success_rate_pct,mean_percentage_error_pct,mean_absolute_percentage_error_pct,scenario_label,model_label
+long_stable_break,regularized_poisson,ceded,50,50,100.0,110.52366178415977,110.52366178415977,Long / Stable + Break,Regularized Poisson
+long_stable_break,regularized_poisson_break_interaction,ceded,50,50,100.0,58.231152698167854,60.29453247705186,Long / Stable + Break,Poisson + Break Interaction
+long_stable_break,regularized_tweedie,ceded,50,50,100.0,103.65424266224758,103.72748887734355,Long / Stable + Break,Tweedie
+long_emerging_break,regularized_poisson,ceded,50,50,100.0,119.20571841102044,119.20571841102044,Long / Emerging + Break,Regularized Poisson
+long_emerging_break,regularized_poisson_break_interaction,ceded,50,50,100.0,74.73836237865137,77.16297387350838,Long / Emerging + Break,Poisson + Break Interaction
+long_emerging_break,regularized_tweedie,ceded,50,50,100.0,104.85013271714479,105.46914325269877,Long / Emerging + Break,Tweedie
+long_shock_break,regularized_poisson,ceded,50,50,100.0,96.27443155431949,96.50452810391613,Long / Shock + Break,Regularized Poisson
+long_shock_break,regularized_poisson_break_interaction,ceded,50,50,100.0,50.479475654943734,53.54479781212886,Long / Shock + Break,Poisson + Break Interaction
+long_shock_break,regularized_tweedie,ceded,50,50,100.0,80.91845685965681,82.74562832941736,Long / Shock + Break,Tweedie
+long_stable_break,regularized_poisson,gross,50,50,100.0,57.755131485498005,57.755131485498005,Long / Stable + Break,Regularized Poisson
+long_stable_break,regularized_poisson_break_interaction,gross,50,50,100.0,51.01844249312768,51.01844249312768,Long / Stable + Break,Poisson + Break Interaction
+long_stable_break,regularized_tweedie,gross,50,50,100.0,55.45047988190001,55.45047988190001,Long / Stable + Break,Tweedie
+long_emerging_break,regularized_poisson,gross,50,50,100.0,43.359985449352834,43.359985449352834,Long / Emerging + Break,Regularized Poisson
+long_emerging_break,regularized_poisson_break_interaction,gross,50,50,100.0,47.446614512602906,47.446614512602906,Long / Emerging + Break,Poisson + Break Interaction
+long_emerging_break,regularized_tweedie,gross,50,50,100.0,34.706781490384714,34.706781490384714,Long / Emerging + Break,Tweedie
+long_shock_break,regularized_poisson,gross,50,50,100.0,53.720745697573,53.720745697573,Long / Shock + Break,Regularized Poisson
+long_shock_break,regularized_poisson_break_interaction,gross,50,50,100.0,47.55678850478428,47.55678850478428,Long / Shock + Break,Poisson + Break Interaction
+long_shock_break,regularized_tweedie,gross,50,50,100.0,50.55345320976579,50.55345320976579,Long / Shock + Break,Tweedie

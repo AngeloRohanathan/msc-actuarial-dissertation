@@ -1,0 +1,49 @@
+model,basis,history_window_years,scheduled_count,attempted_count,applicable_count,structurally_not_applicable_count,successful_count,failed_count,applicability_rate_pct,conditional_success_rate_pct,unconditional_success_rate_pct,model_label
+cashflow_uplift,ceded,5,450,450,450,0,0,450,100.0,0.0,0.0,Cashflow Uplift
+cashflow_uplift,ceded,7,450,450,450,0,150,300,100.0,33.333333333333336,33.333333333333336,Cashflow Uplift
+cashflow_uplift,ceded,10,450,450,450,0,150,300,100.0,33.333333333333336,33.333333333333336,Cashflow Uplift
+cashflow_uplift,ceded,15,450,450,450,0,172,278,100.0,38.22222222222222,38.22222222222222,Cashflow Uplift
+cashflow_uplift,gross,5,450,450,450,0,0,450,100.0,0.0,0.0,Cashflow Uplift
+cashflow_uplift,gross,7,450,450,450,0,150,300,100.0,33.333333333333336,33.333333333333336,Cashflow Uplift
+cashflow_uplift,gross,10,450,450,450,0,150,300,100.0,33.333333333333336,33.333333333333336,Cashflow Uplift
+cashflow_uplift,gross,15,450,450,450,0,450,0,100.0,100.0,100.0,Cashflow Uplift
+chain_ladder,ceded,5,450,450,450,0,0,450,100.0,0.0,0.0,Chain Ladder
+chain_ladder,ceded,7,450,450,450,0,150,300,100.0,33.333333333333336,33.333333333333336,Chain Ladder
+chain_ladder,ceded,10,450,450,450,0,150,300,100.0,33.333333333333336,33.333333333333336,Chain Ladder
+chain_ladder,ceded,15,450,450,450,0,172,278,100.0,38.22222222222222,38.22222222222222,Chain Ladder
+chain_ladder,gross,5,450,450,450,0,0,450,100.0,0.0,0.0,Chain Ladder
+chain_ladder,gross,7,450,450,450,0,150,300,100.0,33.333333333333336,33.333333333333336,Chain Ladder
+chain_ladder,gross,10,450,450,450,0,150,300,100.0,33.333333333333336,33.333333333333336,Chain Ladder
+chain_ladder,gross,15,450,450,450,0,450,0,100.0,100.0,100.0,Chain Ladder
+inflation_adjusted_chain_ladder,ceded,5,450,450,450,0,0,450,100.0,0.0,0.0,Inflation-Adjusted CL
+inflation_adjusted_chain_ladder,ceded,7,450,450,450,0,150,300,100.0,33.333333333333336,33.333333333333336,Inflation-Adjusted CL
+inflation_adjusted_chain_ladder,ceded,10,450,450,450,0,150,300,100.0,33.333333333333336,33.333333333333336,Inflation-Adjusted CL
+inflation_adjusted_chain_ladder,ceded,15,450,450,450,0,172,278,100.0,38.22222222222222,38.22222222222222,Inflation-Adjusted CL
+inflation_adjusted_chain_ladder,gross,5,450,450,450,0,0,450,100.0,0.0,0.0,Inflation-Adjusted CL
+inflation_adjusted_chain_ladder,gross,7,450,450,450,0,150,300,100.0,33.333333333333336,33.333333333333336,Inflation-Adjusted CL
+inflation_adjusted_chain_ladder,gross,10,450,450,450,0,150,300,100.0,33.333333333333336,33.333333333333336,Inflation-Adjusted CL
+inflation_adjusted_chain_ladder,gross,15,450,450,450,0,450,0,100.0,100.0,100.0,Inflation-Adjusted CL
+regularized_poisson,ceded,5,450,0,0,450,0,0,0.0,,0.0,Regularized Poisson
+regularized_poisson,ceded,7,450,0,0,450,0,0,0.0,,0.0,Regularized Poisson
+regularized_poisson,ceded,10,450,450,450,0,450,0,100.0,100.0,100.0,Regularized Poisson
+regularized_poisson,ceded,15,450,450,450,0,450,0,100.0,100.0,100.0,Regularized Poisson
+regularized_poisson,gross,5,450,0,0,450,0,0,0.0,,0.0,Regularized Poisson
+regularized_poisson,gross,7,450,0,0,450,0,0,0.0,,0.0,Regularized Poisson
+regularized_poisson,gross,10,450,450,450,0,450,0,100.0,100.0,100.0,Regularized Poisson
+regularized_poisson,gross,15,450,450,450,0,450,0,100.0,100.0,100.0,Regularized Poisson
+regularized_poisson_break_interaction,ceded,5,450,0,0,450,0,0,0.0,,0.0,Poisson + Break Interaction
+regularized_poisson_break_interaction,ceded,7,450,0,0,450,0,0,0.0,,0.0,Poisson + Break Interaction
+regularized_poisson_break_interaction,ceded,10,450,450,450,0,450,0,100.0,100.0,100.0,Poisson + Break Interaction
+regularized_poisson_break_interaction,ceded,15,450,450,450,0,450,0,100.0,100.0,100.0,Poisson + Break Interaction
+regularized_poisson_break_interaction,gross,5,450,0,0,450,0,0,0.0,,0.0,Poisson + Break Interaction
+regularized_poisson_break_interaction,gross,7,450,0,0,450,0,0,0.0,,0.0,Poisson + Break Interaction
+regularized_poisson_break_interaction,gross,10,450,450,450,0,450,0,100.0,100.0,100.0,Poisson + Break Interaction
+regularized_poisson_break_interaction,gross,15,450,450,450,0,450,0,100.0,100.0,100.0,Poisson + Break Interaction
+regularized_tweedie,ceded,5,450,0,0,450,0,0,0.0,,0.0,Tweedie
+regularized_tweedie,ceded,7,450,0,0,450,0,0,0.0,,0.0,Tweedie
+regularized_tweedie,ceded,10,450,450,450,0,450,0,100.0,100.0,100.0,Tweedie
+regularized_tweedie,ceded,15,450,450,450,0,450,0,100.0,100.0,100.0,Tweedie
+regularized_tweedie,gross,5,450,0,0,450,0,0,0.0,,0.0,Tweedie
+regularized_tweedie,gross,7,450,0,0,450,0,0,0.0,,0.0,Tweedie
+regularized_tweedie,gross,10,450,450,450,0,450,0,100.0,100.0,100.0,Tweedie
+regularized_tweedie,gross,15,450,450,450,0,450,0,100.0,100.0,100.0,Tweedie
